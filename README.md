@@ -13,4 +13,8 @@ mobile app
 ![](ui/profile.png)
 # หน้าโปรไฟล์
 ![](ui/Register.png)
+
+
+
+flutter run --no-sound-null-safety
  
