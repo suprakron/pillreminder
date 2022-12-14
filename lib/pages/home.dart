@@ -24,9 +24,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: kSecondaryColor,
         toolbarHeight: 148.0,
         title: Column(
           children: [
@@ -74,8 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         style: TextStyle(
                           fontSize: 20.0,
                           color: selectedIndex == index
-                              ? Colors.white
-                              : Colors.black54,
+                              ? kSecondaryColor
+                              : kTextColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       "${index + 1}",
                       style: const TextStyle(
                         fontSize: 16.0,
-                        color: Colors.black54,
+                        color: kTextColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -114,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Text("ตารางกินยา",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: kTextColor,
                 )))
       ],
     );
