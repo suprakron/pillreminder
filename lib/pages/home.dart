@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 import './pill.dart';
 import './add.dart';
-import '../widgets/listpill.dart';
+import '../widgets/pillday.dart';
 import '../constants.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -216,7 +216,7 @@ class Home extends StatelessWidget {
       child: ListView.builder(
         itemCount: 10,
         itemBuilder: ((context, index) {
-          return const ListPill();
+          return const PillDay();
         }),
       ),
     );

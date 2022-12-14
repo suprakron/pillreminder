@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ListPill extends StatelessWidget {
-  const ListPill({
+class PillDay extends StatelessWidget {
+  const PillDay({
     Key? key,
   }) : super(key: key);
 
