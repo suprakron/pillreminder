@@ -18,7 +18,22 @@ class _MyHomePageState extends State<MyHomePage> {
   int selectedIndex = 0;
   DateTime now = DateTime.now();
   late DateTime dateTime;
-  int _currentIndex = 1;
+  late String month;
+  List<String> months = [
+    'มกราคม',
+    'กุมภาพันธ์',
+    'มีนาคม',
+    'เมษายน',
+    'พฤษภาคม',
+    'มิถุนายน',
+    'กรกฎาคม',
+    'สิงหาคม',
+    'กันยายน',
+    'ตุลาคม',
+    'พฤศจิกายน',
+    'ธันวาคม'
+  ];
+  int _currentIndex = 0;
 
   List<Widget> _pages = [Home(), AppPillPage(), PillPage()];
 
@@ -26,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     dateTime = DateTime.now();
     selectedIndex = dateTime.day - 1;
+    month = months[dateTime.month - 1];
     super.initState();
   }
 
@@ -33,19 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
-      appBar: _currentIndex == 0
-          ? AppBar(
-              backgroundColor: kSecondaryColor,
-              toolbarHeight: 148.0,
-              title: Column(
-                children: [
-                  titleAppbar(),
-                  const SizedBox(height: 16.0),
-                  dateHorizontal(),
-                ],
-              ),
-            )
-          : null,
+      appBar: _currentIndex == 0 ? appBarCustom() : null,
       body: _pages[_currentIndex],
       bottomNavigationBar: bottomBar(),
       floatingActionButtonLocation:
@@ -63,6 +67,53 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             }),
           )),
+    );
+  }
+
+  AppBar appBarCustom() {
+    return AppBar(
+      backgroundColor: kPrimaryColor,
+      toolbarHeight: 148.0,
+      title: Stack(children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: kPrimaryColor,
+                elevation: 0,
+              ),
+              child: Text(
+                month,
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: kTextColor,
+                ),
+              ),
+              onPressed: () async {
+                DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(1950),
+                    lastDate: DateTime(2100));
+
+                if (pickedDate != null) {
+                  setState(() {
+                    dateTime = pickedDate;
+                    selectedIndex = pickedDate.day - 1;
+                    month = months[pickedDate.month - 1];
+                    print(month);
+                  });
+                } else {}
+              },
+            ),
+            dateHorizontal(),
+          ],
+        ),
+      ]),
     );
   }
 
@@ -99,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     size: 20,
                     color: _currentIndex == 0 ? Colors.white : kIconColor,
                   ),
-                  label: 'วันนี้',
+                  label: 'ตารางยา',
                 ),
                 const BottomNavigationBarItem(
                   icon: Icon(
@@ -166,9 +217,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     const SizedBox(height: 8.0),
                     Text(
                       "${index + 1}",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16.0,
-                        color: kTextColor,
+                        color: selectedIndex == index
+                            ? kSecondaryColor
+                            : kTextColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -187,19 +240,6 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       ),
-    );
-  }
-
-  Row titleAppbar() {
-    return Row(
-      children: const [
-        Expanded(
-            child: Text("ตารางกินยา",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: kTextColor,
-                )))
-      ],
     );
   }
 }
