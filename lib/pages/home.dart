@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../widgets/listpill.dart';
 import '../constants.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -41,52 +42,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView.builder(
           itemCount: 10,
           itemBuilder: ((context, index) {
-            return Card(
-                elevation: 1,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text('8.00 น.'),
-                          Text('พาราเซต่มอล'),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: const [
-                          Text('สถานะการกิน'),
-                          FlutterLogo(size: 50),
-                        ],
-                      ),
-                    ],
-                  ),
-                ));
-          }
-              // Card(
-              //       child: ListTile(
-              //         leading: const FlutterLogo(size: 72.0),
-              //         title: Text(
-              //           'ชื่อยา ${index + 1}',
-              //           style: const TextStyle(color: kTextColor),
-              //         ),
-              //         subtitle: const Text(
-              //           '13.00 น.',
-              //           style: TextStyle(color: kTextColor),
-              //         ),
-              //         trailing: IconButton(
-              //           icon: const Icon(
-              //             Icons.more_vert,
-              //             color: kTextColor,
-              //           ),
-              //           onPressed: () {},
-              //         ),
-              //       ),
-              //     )
-              ),
+            return const ListPill();
+          }),
         ),
       ),
     );
