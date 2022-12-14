@@ -32,7 +32,9 @@ migrate_working_dir/
 .pub/
 /build/
 /windows
+windows/flutter/
 /linux
+linux/flutter/
 /macos
 
 
