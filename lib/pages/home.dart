@@ -33,9 +33,15 @@ class _MyHomePageState extends State<MyHomePage> {
     'พฤศจิกายน',
     'ธันวาคม'
   ];
+
+  List<String> days = ['อา', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'];
   int _currentIndex = 0;
 
-  List<Widget> _pages = [Home(), AppPillPage(), PillPage()];
+  final List<Widget> _pages = [
+    const Home(),
+    const AppPillPage(),
+    const PillPage()
+  ];
 
   @override
   void initState() {
@@ -60,7 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: _currentIndex == 1 ? kIconColor : kPrimaryColor,
             child: const Icon(Icons.add),
             onPressed: () => setState(() {
-              // _currentIndex = 1;
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const AppPillPage()),
@@ -105,7 +110,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     dateTime = pickedDate;
                     selectedIndex = pickedDate.day - 1;
                     month = months[pickedDate.month - 1];
-                    print(month);
                   });
                 } else {}
               },
@@ -163,6 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: SvgPicture.asset(
                     'assets/pill.svg',
                     height: 20,
+                    width: 20,
                     color: _currentIndex == 2 ? Colors.white : kIconColor,
                   ),
                   label: 'ยา',
@@ -171,6 +176,35 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  String dayCase(String date) {
+    String day = '';
+    switch (date) {
+      case 'Sun':
+        day = days[0];
+        break;
+      case 'Mon':
+        day = days[1];
+        break;
+      case 'Tue':
+        day = days[2];
+        break;
+      case 'Wed':
+        day = days[3];
+        break;
+      case 'Thu':
+        day = days[4];
+        break;
+      case 'Fri':
+        day = days[5];
+        break;
+      case 'Sat':
+        day = days[6];
+        break;
+      default:
+    }
+    return day;
   }
 
   SingleChildScrollView dateHorizontal() {
@@ -204,7 +238,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         borderRadius: BorderRadius.circular(44.0),
                       ),
                       child: Text(
-                        dayName,
+                        dayCase(dayName),
                         style: TextStyle(
                           fontSize: 20.0,
                           color: selectedIndex == index
