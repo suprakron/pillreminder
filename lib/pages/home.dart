@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
+import './pill.dart';
+import './add.dart';
 import '../widgets/listpill.dart';
 import '../constants.dart';
 
@@ -15,6 +18,10 @@ class _MyHomePageState extends State<MyHomePage> {
   int selectedIndex = 0;
   DateTime now = DateTime.now();
   late DateTime dateTime;
+  int _currentIndex = 1;
+
+  List<Widget> _pages = [Home(), AppPillPage(), PillPage()];
+
   @override
   void initState() {
     dateTime = DateTime.now();
@@ -26,24 +33,90 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: kSecondaryColor,
-        toolbarHeight: 148.0,
-        title: Column(
-          children: [
-            titleAppbar(),
-            const SizedBox(height: 16.0),
-            dateHorizontal(),
-          ],
-        ),
-      ),
-      body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10),
-        child: ListView.builder(
-          itemCount: 10,
-          itemBuilder: ((context, index) {
-            return const ListPill();
-          }),
+      appBar: _currentIndex == 0
+          ? AppBar(
+              backgroundColor: kSecondaryColor,
+              toolbarHeight: 148.0,
+              title: Column(
+                children: [
+                  titleAppbar(),
+                  const SizedBox(height: 16.0),
+                  dateHorizontal(),
+                ],
+              ),
+            )
+          : null,
+      body: _pages[_currentIndex],
+      bottomNavigationBar: bottomBar(),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButton: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: FloatingActionButton(
+            backgroundColor: _currentIndex == 1 ? kIconColor : kPrimaryColor,
+            child: const Icon(Icons.add),
+            onPressed: () => setState(() {
+              // _currentIndex = 1;
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AppPillPage()),
+              );
+            }),
+          )),
+    );
+  }
+
+  BottomAppBar bottomBar() {
+    return BottomAppBar(
+      shape: const CircularNotchedRectangle(),
+      notchMargin: 8.0,
+      clipBehavior: Clip.antiAlias,
+      child: SizedBox(
+        height: kBottomNavigationBarHeight,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            border: Border(
+              top: BorderSide(
+                color: Colors.grey,
+                width: 0.5,
+              ),
+            ),
+          ),
+          child: BottomNavigationBar(
+              currentIndex: _currentIndex,
+              backgroundColor: kPrimaryColor,
+              selectedItemColor: Colors.white,
+              onTap: (index) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.calendar_today,
+                    size: 20,
+                    color: _currentIndex == 0 ? Colors.white : kIconColor,
+                  ),
+                  label: 'วันนี้',
+                ),
+                const BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home,
+                    color: kIconColor,
+                  ),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/pill.svg',
+                    height: 20,
+                    color: _currentIndex == 2 ? Colors.white : kIconColor,
+                  ),
+                  label: 'ยา',
+                )
+              ]),
         ),
       ),
     );
@@ -127,6 +200,25 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: kTextColor,
                 )))
       ],
+    );
+  }
+}
+
+class Home extends StatelessWidget {
+  const Home({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: ListView.builder(
+        itemCount: 10,
+        itemBuilder: ((context, index) {
+          return const ListPill();
+        }),
+      ),
     );
   }
 }
