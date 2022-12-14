@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 import './pill.dart';
 import './add.dart';
@@ -15,10 +16,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int selectedIndex = 0;
+  final scrollDirection = Axis.vertical;
+  late AutoScrollController controller;
+  late List<List<int>> randomList;
   DateTime now = DateTime.now();
   late DateTime dateTime;
   late String month;
+
   List<String> months = [
     'มกราคม',
     'กุมภาพันธ์',
@@ -33,9 +37,10 @@ class _MyHomePageState extends State<MyHomePage> {
     'พฤศจิกายน',
     'ธันวาคม'
   ];
-
   List<String> days = ['อา', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'];
+
   int _currentIndex = 0;
+  int selectedIndex = 0;
 
   final List<Widget> _pages = [
     const Home(),
@@ -48,7 +53,18 @@ class _MyHomePageState extends State<MyHomePage> {
     dateTime = DateTime.now();
     selectedIndex = dateTime.day - 1;
     month = months[dateTime.month - 1];
+
+    controller = AutoScrollController(
+        viewportBoundaryGetter: () =>
+            Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
+        axis: scrollDirection);
+    _scrollToIndex();
     super.initState();
+  }
+
+  Future _scrollToIndex() async {
+    await controller.scrollToIndex(selectedIndex,
+        preferPosition: AutoScrollPosition.middle);
   }
 
   @override
@@ -111,6 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     selectedIndex = pickedDate.day - 1;
                     month = months[pickedDate.month - 1];
                   });
+                  _scrollToIndex();
                 } else {}
               },
             ),
@@ -210,6 +227,7 @@ class _MyHomePageState extends State<MyHomePage> {
   SingleChildScrollView dateHorizontal() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
+      controller: controller,
       physics: const ClampingScrollPhysics(),
       child: Row(
         children: List.generate(
@@ -217,57 +235,62 @@ class _MyHomePageState extends State<MyHomePage> {
           (index) {
             final dateShow = dateTime.add(Duration(days: index));
             final dayName = DateFormat('E').format(dateShow);
-            return Padding(
-              padding:
-                  EdgeInsets.only(left: index == 0 ? 16.0 : 0.0, right: 16.0),
-              child: GestureDetector(
-                onTap: () => setState(() {
-                  selectedIndex = index;
-                }),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 42.0,
-                      width: 42.0,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: selectedIndex == index
-                            ? kPrimaryColor
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(44.0),
+            return AutoScrollTag(
+              key: ValueKey(index),
+              controller: controller,
+              index: index,
+              child: Container(
+                margin:
+                    EdgeInsets.only(left: index == 0 ? 16.0 : 0.0, right: 16.0),
+                child: GestureDetector(
+                  onTap: () => setState(() {
+                    selectedIndex = index;
+                  }),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 42.0,
+                        width: 42.0,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: selectedIndex == index
+                              ? kPrimaryColor
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(44.0),
+                        ),
+                        child: Text(
+                          dayCase(dayName),
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            color: selectedIndex == index
+                                ? kSecondaryColor
+                                : kTextColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                      child: Text(
-                        dayCase(dayName),
+                      const SizedBox(height: 8.0),
+                      Text(
+                        "${index + 1}",
                         style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 16.0,
                           color: selectedIndex == index
                               ? kSecondaryColor
                               : kTextColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      "${index + 1}",
-                      style: TextStyle(
-                        fontSize: 16.0,
+                      const SizedBox(height: 8.0),
+                      Container(
+                        height: 2.0,
+                        width: 28.0,
                         color: selectedIndex == index
-                            ? kSecondaryColor
-                            : kTextColor,
-                        fontWeight: FontWeight.bold,
+                            ? kPrimaryColor
+                            : Colors.transparent,
                       ),
-                    ),
-                    const SizedBox(height: 8.0),
-                    Container(
-                      height: 2.0,
-                      width: 28.0,
-                      color: selectedIndex == index
-                          ? kPrimaryColor
-                          : Colors.transparent,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
