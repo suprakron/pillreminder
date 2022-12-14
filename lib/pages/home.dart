@@ -117,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () async {
                 DateTime? pickedDate = await showDatePicker(
                     context: context,
-                    initialDate: DateTime.now(),
+                    initialDate: dateTime,
                     firstDate: DateTime(1950),
                     lastDate: DateTime(2100));
 
