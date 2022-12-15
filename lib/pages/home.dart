@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 import './pill.dart';
 import './add.dart';
@@ -15,37 +16,62 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int selectedIndex = 0;
+  final scrollDirection = Axis.vertical;
+  late AutoScrollController controller;
+  late List<List<int>> randomList;
   DateTime now = DateTime.now();
   late DateTime dateTime;
-  int _currentIndex = 1;
+  late String month;
 
-  List<Widget> _pages = [Home(), AppPillPage(), PillPage()];
+  List<String> months = [
+    'มกราคม',
+    'กุมภาพันธ์',
+    'มีนาคม',
+    'เมษายน',
+    'พฤษภาคม',
+    'มิถุนายน',
+    'กรกฎาคม',
+    'สิงหาคม',
+    'กันยายน',
+    'ตุลาคม',
+    'พฤศจิกายน',
+    'ธันวาคม'
+  ];
+  List<String> days = ['อา', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'];
+
+  int _currentIndex = 0;
+  int selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    const Home(),
+    const AppPillPage(),
+    const PillPage()
+  ];
 
   @override
   void initState() {
     dateTime = DateTime.now();
     selectedIndex = dateTime.day - 1;
+    month = months[dateTime.month - 1];
+
+    controller = AutoScrollController(
+        viewportBoundaryGetter: () =>
+            Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
+        axis: scrollDirection);
+    _scrollToIndex();
     super.initState();
+  }
+
+  Future _scrollToIndex() async {
+    await controller.scrollToIndex(selectedIndex,
+        preferPosition: AutoScrollPosition.middle);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
-      appBar: _currentIndex == 0
-          ? AppBar(
-              backgroundColor: kSecondaryColor,
-              toolbarHeight: 148.0,
-              title: Column(
-                children: [
-                  titleAppbar(),
-                  const SizedBox(height: 16.0),
-                  dateHorizontal(),
-                ],
-              ),
-            )
-          : null,
+      appBar: _currentIndex == 0 ? appBarCustom() : null,
       body: _pages[_currentIndex],
       bottomNavigationBar: bottomBar(),
       floatingActionButtonLocation:
@@ -56,13 +82,59 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: _currentIndex == 1 ? kIconColor : kPrimaryColor,
             child: const Icon(Icons.add),
             onPressed: () => setState(() {
-              // _currentIndex = 1;
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const AppPillPage()),
               );
             }),
           )),
+    );
+  }
+
+  AppBar appBarCustom() {
+    return AppBar(
+      backgroundColor: kPrimaryColor,
+      toolbarHeight: 148.0,
+      title: Stack(children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: kPrimaryColor,
+                elevation: 0,
+              ),
+              child: Text(
+                month,
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: kTextColor,
+                ),
+              ),
+              onPressed: () async {
+                DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: dateTime,
+                    firstDate: DateTime(1950),
+                    lastDate: DateTime(2100));
+
+                if (pickedDate != null) {
+                  setState(() {
+                    dateTime = pickedDate;
+                    selectedIndex = pickedDate.day - 1;
+                    month = months[pickedDate.month - 1];
+                  });
+                  _scrollToIndex();
+                } else {}
+              },
+            ),
+            dateHorizontal(),
+          ],
+        ),
+      ]),
     );
   }
 
@@ -99,7 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     size: 20,
                     color: _currentIndex == 0 ? Colors.white : kIconColor,
                   ),
-                  label: 'วันนี้',
+                  label: 'ตารางยา',
                 ),
                 const BottomNavigationBarItem(
                   icon: Icon(
@@ -112,6 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: SvgPicture.asset(
                     'assets/pill.svg',
                     height: 20,
+                    width: 20,
                     color: _currentIndex == 2 ? Colors.white : kIconColor,
                   ),
                   label: 'ยา',
@@ -122,9 +195,39 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  String dayCase(String date) {
+    String day = '';
+    switch (date) {
+      case 'Sun':
+        day = days[0];
+        break;
+      case 'Mon':
+        day = days[1];
+        break;
+      case 'Tue':
+        day = days[2];
+        break;
+      case 'Wed':
+        day = days[3];
+        break;
+      case 'Thu':
+        day = days[4];
+        break;
+      case 'Fri':
+        day = days[5];
+        break;
+      case 'Sat':
+        day = days[6];
+        break;
+      default:
+    }
+    return day;
+  }
+
   SingleChildScrollView dateHorizontal() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
+      controller: controller,
       physics: const ClampingScrollPhysics(),
       child: Row(
         children: List.generate(
@@ -132,74 +235,68 @@ class _MyHomePageState extends State<MyHomePage> {
           (index) {
             final dateShow = dateTime.add(Duration(days: index));
             final dayName = DateFormat('E').format(dateShow);
-            return Padding(
-              padding:
-                  EdgeInsets.only(left: index == 0 ? 16.0 : 0.0, right: 16.0),
-              child: GestureDetector(
-                onTap: () => setState(() {
-                  selectedIndex = index;
-                }),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 42.0,
-                      width: 42.0,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: selectedIndex == index
-                            ? kPrimaryColor
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(44.0),
+            return AutoScrollTag(
+              key: ValueKey(index),
+              controller: controller,
+              index: index,
+              child: Container(
+                margin:
+                    EdgeInsets.only(left: index == 0 ? 16.0 : 0.0, right: 16.0),
+                child: GestureDetector(
+                  onTap: () => setState(() {
+                    selectedIndex = index;
+                  }),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 42.0,
+                        width: 42.0,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: selectedIndex == index
+                              ? kPrimaryColor
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(44.0),
+                        ),
+                        child: Text(
+                          dayCase(dayName),
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            color: selectedIndex == index
+                                ? kSecondaryColor
+                                : kTextColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                      child: Text(
-                        dayName,
+                      const SizedBox(height: 8.0),
+                      Text(
+                        "${index + 1}",
                         style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 16.0,
                           color: selectedIndex == index
                               ? kSecondaryColor
                               : kTextColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      "${index + 1}",
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        color: kTextColor,
-                        fontWeight: FontWeight.bold,
+                      const SizedBox(height: 8.0),
+                      Container(
+                        height: 2.0,
+                        width: 28.0,
+                        color: selectedIndex == index
+                            ? kPrimaryColor
+                            : Colors.transparent,
                       ),
-                    ),
-                    const SizedBox(height: 8.0),
-                    Container(
-                      height: 2.0,
-                      width: 28.0,
-                      color: selectedIndex == index
-                          ? kPrimaryColor
-                          : Colors.transparent,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
           },
         ),
       ),
-    );
-  }
-
-  Row titleAppbar() {
-    return Row(
-      children: const [
-        Expanded(
-            child: Text("ตารางกินยา",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: kTextColor,
-                )))
-      ],
     );
   }
 }
