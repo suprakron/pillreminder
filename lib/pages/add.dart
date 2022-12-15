@@ -56,8 +56,29 @@ class _AppPillPageState extends State<AppPillPage> {
     }
   }
 
+  Widget box(String title, Color backgroundcolor) {
+    return Container(
+      margin: EdgeInsets.all(10),
+      width: 80,
+      color: backgroundcolor,
+      alignment: Alignment.center,
+      child: Text(
+        title,
+        style: TextStyle(color: Colors.white, fontSize: 20),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<String> countries = [
+      "Brazil",
+      "Nepal",
+      "India",
+      "China",
+      "USA",
+      "Canada"
+    ];
     return Scaffold(
       body: ListView(
         padding: const EdgeInsets.only(top: 45.0, left: 28.0, right: 28.0),
@@ -106,6 +127,40 @@ class _AppPillPageState extends State<AppPillPage> {
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(14.0)),
                     borderSide: BorderSide(width: 0, style: BorderStyle.none))),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 20.0, bottom: 15.0),
+            child: Text(
+              'ประเภทของยา',
+              style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w500, fontSize: 15.0),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(children: [
+              Container(
+                height: 100,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    Container(
+                      width: 150,
+                      child: Card(
+                        child: Wrap(
+                          children: <Widget>[
+                            const Image(
+                              image: NetworkImage(
+                                  'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ]),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 24.0, bottom: 15.0),
@@ -158,29 +213,6 @@ class _AppPillPageState extends State<AppPillPage> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(top: 20.0, bottom: 15.0),
-            child: Text(
-              'รายละเอียดเพิมเติม',
-              style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w500, fontSize: 15.0),
-            ),
-          ),
-          TextField(
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-                fontWeight: FontWeight.w500, fontSize: 15.0),
-            decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(26.0),
-                hintText: 'กรุณาป้อนข้อมูล',
-                hintStyle: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w500, fontSize: 13.0),
-                fillColor: Color.fromRGBO(248, 248, 246, 1),
-                filled: true,
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(14.0)),
-                    borderSide: BorderSide(width: 0, style: BorderStyle.none))),
-          ),
-          Padding(
             padding: const EdgeInsets.only(top: 32.0, bottom: 20.0),
             child: Text(
               'การแจ้งเตือน',
@@ -216,7 +248,6 @@ class _AppPillPageState extends State<AppPillPage> {
     );
   }
 }
-
 
 // class AppPillPage extends StatelessWidget {
 //   const AppPillPage({super.key});
