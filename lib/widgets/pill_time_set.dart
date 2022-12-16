@@ -14,11 +14,18 @@ class TimeSetPill extends StatefulWidget {
 class _TimeSetPillState extends State<TimeSetPill> {
   TextEditingController _amountController = TextEditingController();
 
+  List<String> listEat = <String>[
+    'ก่อนอาหาร',
+    'หลังอาหาร',
+  ];
+
   String? time;
   TimeOfDay now = TimeOfDay.now();
 
-  int amount = 2;
+  int amount = 0;
   String type = 'เม็ด';
+
+  String timeType = 'ก่อนอาหาร';
 
   @override
   void initState() {
@@ -33,43 +40,47 @@ class _TimeSetPillState extends State<TimeSetPill> {
       children: [
         TextButton(
             onPressed: () async {
-              TimeOfDay? pickedTime = await showTimePicker(
-                initialTime: TimeOfDay.now(),
-                context: context,
-                builder: (context, child) {
-                  return MediaQuery(
-                    data: MediaQuery.of(context)
-                        .copyWith(alwaysUse24HourFormat: true),
-                    child: child ?? Container(),
-                  );
-                },
-              );
-
-              if (pickedTime != null) {
-                setState(() {
-                  time = "${pickedTime.hour} : ${pickedTime.minute}";
-                });
-                print(pickedTime.hour);
-              } else {
-                print("Time is not selected");
-              }
+              await _timePicker(context);
             },
             child: Text(time!)),
         TextButton(
-            onPressed: () {
-              _dialogBuilder(context, _amountController);
+            onPressed: () async {
+              await _dialogTimePill(context, _amountController);
             },
             child: Text('$amount $type')),
-        TextButton(onPressed: () {}, child: Text('หลังอ่าหาร')),
+        TextButton(
+            onPressed: () async {
+              await _dialogAmoutPill(context);
+            },
+            child: Text(timeType)),
       ],
     );
   }
 
-  Future<void> _dialogBuilder(
+  Future<void> _timePicker(BuildContext context) async {
+    TimeOfDay? pickedTime = await showTimePicker(
+      initialTime: TimeOfDay.now(),
+      context: context,
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child ?? Container(),
+        );
+      },
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        time = "${pickedTime.hour} : ${pickedTime.minute}";
+      });
+    } else {}
+  }
+
+  Future<void> _dialogTimePill(
     BuildContext context,
     TextEditingController controller,
   ) {
-    const List<String> list = <String>[
+    List<String> list = <String>[
       'เม็ด',
       'ช้อน',
     ];
@@ -92,10 +103,8 @@ class _TimeSetPillState extends State<TimeSetPill> {
               DropdownButton<String>(
                 value: dropdownValue,
                 elevation: 16,
-                style: const TextStyle(color: Colors.deepPurple),
                 underline: Container(
                   height: 2,
-                  color: Colors.deepPurpleAccent,
                 ),
                 onChanged: (String? value) {
                   // This is called when the user selects an item.
@@ -140,4 +149,36 @@ class _TimeSetPillState extends State<TimeSetPill> {
       },
     );
   }
+
+  Future<void> _dialogAmoutPill(
+    BuildContext context,
+  ) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('ปริมาณยา'),
+          content: SizedBox(
+            width: 50,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                for (int i = 0; i < listEat.length; i++)
+                  buttomSelectTimetype(listEat[i]),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buttomSelectTimetype(String label) => ElevatedButton(
+      onPressed: () {
+        setState(() {
+          timeType = label;
+          Navigator.of(context).pop();
+        });
+      },
+      child: Text(label));
 }
