@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pillreminder/constants.dart';
-
+import '../pages/pigture.dart';
 import '../widgets/pill_time_set.dart';
 
 class AppPillPage extends StatefulWidget {
@@ -179,29 +180,41 @@ class _AppPillPageState extends State<AppPillPage> {
               child: Row(
                 children: <Widget>[
                   GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                        width: 150.0,
-                        height: 50,
-                        color: Colors.red,
-                        child: const Text('น้ำ')),
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: 160.0,
-                      height: 50,
-                      color: Colors.blue,
-                      child: const Text('เม็ด'),
+                    // onTap: () {},
+                    // child: Container(
+                    //     width: 150.0,
+                    //     height: 50,
+                    //     color: Colors.red,
+                    //     child: const Text('น้ำ')),
+                    child: SvgPicture.asset(
+                      iconcapsule,
+                      height: 100,
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: 160.0,
-                      height: 50,
-                      color: Colors.green,
-                      child: const Text("แคปซูล"),
+                    child: SvgPicture.asset(
+                      iconcream,
+                      height: 100,
+                      // onTap: () {},
+                      // child: Container(
+                      //   width: 160.0,
+                      //   height: 50,
+                      //   color: Colors.green,
+                      //   child: const Text("แคปซูล"),
+                      // ),
+                    ),
+                  ),
+                  GestureDetector(
+                    child: SvgPicture.asset(
+                      iconsyrup,
+                      height: 100,
+                      // onTap: () {},
+                      // child: Container(
+                      //   width: 160.0,
+                      //   height: 50,
+                      //   color: Colors.green,
+                      //   child: const Text("แคปซูล"),
+                      // ),
                     ),
                   ),
                 ],
