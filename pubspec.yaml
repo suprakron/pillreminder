@@ -44,6 +44,7 @@ dependencies:
   flutter_svg: ^1.1.6
   scroll_to_index: ^3.0.1
   sqflite: ^2.2.2
+  flutter_time_picker_spinner: ^2.0.0
 
 dev_dependencies:
   flutter_test:
