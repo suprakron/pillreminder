@@ -37,16 +37,7 @@ class _SingUpPageState extends State<SingUpPage> {
               const SizedBox(
                 height: 40,
               ),
-              const TextField(
-                decoration: InputDecoration(
-                    hintText: 'ชื่อผู้ใช้',
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                    prefixIcon: Icon(
-                      Icons.person_outline_sharp,
-                      size: 22,
-                      color: Color.fromARGB(255, 50, 120, 124),
-                    )),
-              ),
+           
               const SizedBox(
                 height: 14,
               ),
