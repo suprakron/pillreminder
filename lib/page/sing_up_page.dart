@@ -44,7 +44,7 @@ class _SingUpPageState extends State<SingUpPage> {
                     prefixIcon: Icon(
                       Icons.person_outline_sharp,
                       size: 22,
-                      color: Color(0xfff97d7d),
+                      color: Color.fromARGB(255, 50, 120, 124),
                     )),
               ),
               const SizedBox(
@@ -56,7 +56,7 @@ class _SingUpPageState extends State<SingUpPage> {
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
                     prefixIcon: Icon(
                       Icons.email_outlined,
-                      color: Color(0xfff97d7d),
+                      color: Color.fromARGB(255, 50, 120, 124),
                     )),
               ),
               const SizedBox(
@@ -68,7 +68,7 @@ class _SingUpPageState extends State<SingUpPage> {
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
                     prefixIcon: Icon(
                       Icons.edit,
-                      color: Color(0xfff97d7d),
+                      color: Color.fromARGB(255, 50, 120, 124),
                     )),
               ),
               const SizedBox(
@@ -80,7 +80,7 @@ class _SingUpPageState extends State<SingUpPage> {
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
                     prefixIcon: Icon(
                       Icons.edit,
-                      color: Color(0xfff97d7d),
+                      color: Color.fromARGB(255, 50, 120, 124),
                     )),
               ),
               const SizedBox(
@@ -90,7 +90,7 @@ class _SingUpPageState extends State<SingUpPage> {
                 width: MediaQuery.of(context).size.width,
                 height: 60,
                 child: MaterialButton(
-                  color: const Color(0xfff97d7d),
+                  color: Color.fromARGB(255, 50, 120, 124),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                   child: const Text(

@@ -43,7 +43,7 @@ class LoginUiPage extends StatelessWidget {
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
                     prefixIcon: Icon(
                       Icons.email_outlined,
-                      color: Color(0xfff97d7d),
+                      color: Color.fromARGB(255, 50,120 , 124),
                     )),
               ),
               const SizedBox(
@@ -55,7 +55,7 @@ class LoginUiPage extends StatelessWidget {
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
                     prefixIcon: Icon(
                       Icons.edit,
-                      color: Color(0xfff97d7d),
+                      color: Color.fromARGB(255, 50, 120, 124),
                     )),
               ),
               Align(
@@ -66,7 +66,7 @@ class LoginUiPage extends StatelessWidget {
                   onPressed: () {},
                   child: const Text(
                     'ลืมรหัสผ่าน?',
-                    style: TextStyle(color: Color(0xfff97d7d)),
+                    style: TextStyle(color: Color.fromARGB(255, 50, 120, 124)),
                   ),
                 ),
               ),
@@ -77,7 +77,7 @@ class LoginUiPage extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 height: 60,
                 child: MaterialButton(
-                  color: const Color(0xfff97d7d),
+                  color: Color.fromARGB(255, 50, 120, 124),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                   child: const Text(
@@ -138,27 +138,7 @@ class LoginUiPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Card(
-                      color: Colors.transparent,
-                      elevation: 0,
-                      margin: const EdgeInsets.symmetric(horizontal: 14),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          side: const BorderSide(
-                            width: 1,
-                            color: Color(0xFFBDBDBD),
-                          )),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Image.asset(
-                          'assets/images/apple.png',
-                          width: 24,
-                          height: 24,
-                        ),
-                      ),
-                    ),
-                  ),
+                
                 ],
               ),
               const SizedBox(
