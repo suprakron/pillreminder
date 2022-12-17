@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pillreminder/constants.dart';
-import '../pages/pigture.dart';
 import '../widgets/pill_time_set.dart';
 
 class AppPillPage extends StatefulWidget {
@@ -117,7 +116,7 @@ class _AppPillPageState extends State<AppPillPage> {
                   elevation: 0,
                 ),
                 child: Text(
-                  'จำนวน $count เม็ด',
+                  'จำนวน $count  ครั้ง/วัน',
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
@@ -130,7 +129,7 @@ class _AppPillPageState extends State<AppPillPage> {
                   elevation: 0,
                 ),
                 child: Text(
-                  'จำนวน $day วัน',
+                  'จำนวน $day วัน/สัปดาห์',
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
@@ -169,58 +168,59 @@ class _AppPillPageState extends State<AppPillPage> {
       elevation: 1,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'ประเภทของยา',
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: <Widget>[
-                  GestureDetector(
-                    // onTap: () {},
-                    // child: Container(
-                    //     width: 150.0,
-                    //     height: 50,
-                    //     color: Colors.red,
-                    //     child: const Text('น้ำ')),
-                    child: SvgPicture.asset(
-                      iconcapsule,
-                      height: 100,
-                    ),
-                  ),
-                  GestureDetector(
-                    child: SvgPicture.asset(
-                      iconcream,
-                      height: 100,
-                      // onTap: () {},
-                      // child: Container(
-                      //   width: 160.0,
-                      //   height: 50,
-                      //   color: Colors.green,
-                      //   child: const Text("แคปซูล"),
-                      // ),
-                    ),
-                  ),
-                  GestureDetector(
-                    child: SvgPicture.asset(
-                      iconsyrup,
-                      height: 100,
-                      // onTap: () {},
-                      // child: Container(
-                      //   width: 160.0,
-                      //   height: 50,
-                      //   color: Colors.green,
-                      //   child: const Text("แคปซูล"),
-                      // ),
-                    ),
-                  ),
-                ],
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                'ประเภทของยา',
               ),
-            ),
-          ],
+              SizedBox(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        color: Colors.red,
+                        child: Image.asset(
+                          iconPill,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        color: Colors.red,
+                        child: Image.asset(
+                          iconPills,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        color: Colors.red,
+                        child: Image.asset(
+                          iconbottle,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

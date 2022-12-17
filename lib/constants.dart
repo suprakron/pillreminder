@@ -8,3 +8,13 @@ const kBackgroundColor = Color(0xFFF8F8F6);
 const kIconColor = Color(0xFF2C5B59);
 
 const double kDefaultPadding = 20.0;
+
+// icon
+const iconcapsule = 'assets/images/capsule.svg';
+const iconcream = 'assets/images/cream.svg';
+const iconsyrup = 'assets/images/syrup.svg';
+const iconpill = 'assets/images/pill.svg';
+
+const iconPill = 'assets/pill.png';
+const iconPills = 'assets/pills.png';
+const iconbottle = 'assets/bottle.png';

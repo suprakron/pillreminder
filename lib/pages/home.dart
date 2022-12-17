@@ -182,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 BottomNavigationBarItem(
                   icon: SvgPicture.asset(
-                    'assets/pill.svg',
+                    iconpill,
                     height: 20,
                     width: 20,
                     color: _currentIndex == 2 ? Colors.white : kIconColor,

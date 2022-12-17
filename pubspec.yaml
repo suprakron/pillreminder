@@ -73,6 +73,8 @@ flutter:
     - assets/images/capsule.svg
     - assets/images/cream.svg
     - assets/images/syrup.svg
+    - assets/images/pill.svg
+    - assets/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
