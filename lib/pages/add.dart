@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pillreminder/constants.dart';
-import 'package:pillreminder/models/pill_model.dart';
-import 'package:pillreminder/provider/pill_provider.dart';
-import 'package:provider/provider.dart';
 
 import '../widgets/pill_time_set.dart';
 
@@ -32,7 +29,6 @@ class _AppPillPageState extends State<AppPillPage> {
 
   @override
   Widget build(BuildContext context) {
-    final pillProvider = Provider.of<PillProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('เพิ่มยา'),
@@ -48,13 +44,7 @@ class _AppPillPageState extends State<AppPillPage> {
               categoryPill(),
               setDatePill(),
               ElevatedButton(
-                onPressed: () {
-                  pillProvider.insertPill(PillModel(
-                      name: _nameController.text,
-                      categoty: category,
-                      begin: DateTime.now(),
-                      day: day));
-                },
+                onPressed: () {},
                 child: const Text('เพิ่มยา'),
               )
             ],

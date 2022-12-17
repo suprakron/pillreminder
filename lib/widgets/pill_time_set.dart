@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pillreminder/provider/pill_provider.dart';
-import 'package:pillreminder/provider/pilldate_provider.dart';
-import 'package:provider/provider.dart';
 
 class TimeSetPill extends StatefulWidget {
   const TimeSetPill({
@@ -82,8 +79,6 @@ class _TimeSetPillState extends State<TimeSetPill> {
         time = "12:34";
         DateTime timeAsDateTime = DateTime.parse(
             "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} $time");
-        final pillProvider = Provider.of<PillDateProvider>(context);
-        pillProvider.insertTime(widget.index, timeAsDateTime);
       });
     }
   }
@@ -152,8 +147,6 @@ class _TimeSetPillState extends State<TimeSetPill> {
                 setState(() {
                   amount = int.parse(controller.text);
                   type = dropdownValue;
-        final pillProvider = Provider.of<PillProvider>(context);
-        pillProvider.insertPill(pill)
                 });
                 Navigator.of(context).pop();
               },
