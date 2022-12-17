@@ -18,3 +18,16 @@ const iconpill = 'assets/images/pill.svg';
 const iconPill = 'assets/pill.png';
 const iconPills = 'assets/pills.png';
 const iconbottle = 'assets/bottle.png';
+
+List<String> category = ['PILL', 'CAPSULE', 'POTION'];
+
+class Category {
+  static const pill = "PILL";
+  static const capsule = 'CAPSULE';
+  static const potion = 'POTION';
+}
+
+class Eat {
+  static const before = "BEFORE";
+  static const after = 'AFTER';
+}

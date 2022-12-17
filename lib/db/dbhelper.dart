@@ -1,0 +1,91 @@
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+class DatabaseHelper {
+  static const _databaseName = "MyDatabase.db";
+  static const _databaseVersion = 1;
+
+  static const table1 = 'pill';
+  static const table2 = 'pill_date';
+
+  static const columnPillId = '_id';
+  static const columnPillName = 'name';
+  static const columnPillCategory = 'categoty';
+
+  static const columnId = '_id';
+  static const columnPill = 'pillid';
+  static const columnDatetime = 'dateTime';
+
+  // Make this a singleton class.
+  DatabaseHelper._privateConstructor();
+  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
+
+  // Only allow a single open connection to the database.
+  static Database? _database;
+  Future<Database> get database async {
+    if (DatabaseHelper._database != null) return DatabaseHelper._database!;
+    DatabaseHelper._database = await _initDatabase();
+    return DatabaseHelper._database!;
+  }
+
+  // Open the database.
+  _initDatabase() async {
+    String path = join(await getDatabasesPath(), _databaseName);
+    return await openDatabase(path,
+        version: _databaseVersion, onCreate: _onCreate);
+  }
+
+  // Create the database.
+  Future _onCreate(Database db, int version) async {
+    await db.execute('''
+          CREATE TABLE $table1 (
+            $columnPillId INTEGER PRIMARY KEY,
+            $columnPillName TEXT NOT NULL,
+            $columnPillCategory TEXT NOT NULL
+          );
+          ''');
+
+    await db.execute('''
+        CREATE TABLE $table2 (
+          $columnId INTEGER PRIMARY KEY,
+          $columnPill INTEGER NOT NULL,
+          $columnDatetime DATETIME NOT NULL,
+          FOREIGN KEY ($columnPill) REFERENCES $table1($columnPillId)
+        );
+        ''');
+  }
+
+  // Insert a row into the database.
+  Future<int> insertPill(Map<String, dynamic> row) async {
+    Database db = await instance.database;
+    return await db.insert(table1, row);
+  }
+
+  // Insert a row into the database.
+  Future<int> insertDatePill(Map<String, dynamic> row) async {
+    Database db = await instance.database;
+    return await db.insert(table2, row);
+  }
+
+  // Query the database.
+  Future<List<Map<String, dynamic>>> queryAllRows() async {
+    Database db = await instance.database;
+    return await db.query(table1);
+  }
+
+  // Query a row with id in the database.
+  Future<Map<String, dynamic>?> queryRow(int id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> result =
+        await db.query(table1, where: '$columnId = ?', whereArgs: [id]);
+    return result.isNotEmpty ? result[0] : null;
+  }
+
+  // Update a row in the database.
+  Future<int> update(Map<String, dynamic> row) async {
+    Database db = await instance.database;
+    int id = row[columnPillId];
+    return await db
+        .update(table1, row, where: '$columnPillId = ?', whereArgs: [id]);
+  }
+}

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pillreminder/constants.dart';
+import 'package:pillreminder/models/pill_model.dart';
+import 'package:pillreminder/provider/pill_provider.dart';
+import 'package:provider/provider.dart';
+
 import '../widgets/pill_time_set.dart';
 
 class AppPillPage extends StatefulWidget {
@@ -15,6 +18,8 @@ class _AppPillPageState extends State<AppPillPage> {
   TextEditingController _dayController = TextEditingController();
   TextEditingController _countController = TextEditingController();
 
+  late String category = '';
+
   late int count = 3;
   late int day;
 
@@ -27,6 +32,7 @@ class _AppPillPageState extends State<AppPillPage> {
 
   @override
   Widget build(BuildContext context) {
+    final pillProvider = Provider.of<PillProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('เพิ่มยา'),
@@ -38,9 +44,19 @@ class _AppPillPageState extends State<AppPillPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              namePill(context),
+              namePill(context, _nameController),
               categoryPill(),
               setDatePill(),
+              ElevatedButton(
+                onPressed: () {
+                  pillProvider.insertPill(PillModel(
+                      name: _nameController.text,
+                      categoty: category,
+                      begin: DateTime.now(),
+                      day: day));
+                },
+                child: const Text('เพิ่มยา'),
+              )
             ],
           ),
         ),
@@ -139,7 +155,9 @@ class _AppPillPageState extends State<AppPillPage> {
             shrinkWrap: true,
             itemCount: count,
             itemBuilder: (context, index) {
-              return const TimeSetPill();
+              return TimeSetPill(
+                index: index,
+              );
             },
           )
         ]),
@@ -181,7 +199,11 @@ class _AppPillPageState extends State<AppPillPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        setState(() {
+                          category = Category.pill;
+                        });
+                      },
                       child: Container(
                         height: 80,
                         width: 80,
@@ -193,7 +215,11 @@ class _AppPillPageState extends State<AppPillPage> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        setState(() {
+                          category = Category.capsule;
+                        });
+                      },
                       child: Container(
                         height: 80,
                         width: 80,
@@ -205,7 +231,11 @@ class _AppPillPageState extends State<AppPillPage> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        setState(() {
+                          category = Category.potion;
+                        });
+                      },
                       child: Container(
                         height: 80,
                         width: 80,
@@ -226,7 +256,7 @@ class _AppPillPageState extends State<AppPillPage> {
     );
   }
 
-  Widget namePill(BuildContext context) {
+  Widget namePill(BuildContext context, TextEditingController controller) {
     return Card(
       elevation: 1,
       color: Colors.white,
@@ -238,9 +268,11 @@ class _AppPillPageState extends State<AppPillPage> {
               width: MediaQuery.of(context).size.width,
               child: const Text('ชื่อยา'),
             ),
-            const TextField(
+            TextField(
+              onChanged: ((value) => setState(() => controller.text = value)),
+              controller: controller,
               maxLines: 1,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   fillColor: Color.fromRGBO(248, 248, 246, 1),
                   filled: true,
                   border: OutlineInputBorder(

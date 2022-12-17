@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
-import 'package:intl/intl.dart';
+import 'package:pillreminder/provider/pill_provider.dart';
+import 'package:pillreminder/provider/pilldate_provider.dart';
+import 'package:provider/provider.dart';
 
 class TimeSetPill extends StatefulWidget {
   const TimeSetPill({
     Key? key,
+    required this.index,
   }) : super(key: key);
+
+  final int index;
 
   @override
   State<TimeSetPill> createState() => _TimeSetPillState();
@@ -22,7 +26,7 @@ class _TimeSetPillState extends State<TimeSetPill> {
   String? time;
   TimeOfDay now = TimeOfDay.now();
 
-  int amount = 0;
+  int amount = 1;
   String type = 'เม็ด';
 
   String timeType = 'ก่อนอาหาร';
@@ -71,9 +75,17 @@ class _TimeSetPillState extends State<TimeSetPill> {
 
     if (pickedTime != null) {
       setState(() {
-        time = "${pickedTime.hour} : ${pickedTime.minute}";
+        String hourString = pickedTime.hour.toString().padLeft(2, '0');
+        String minuteString = pickedTime.minute.toString().padLeft(2, '0');
+        time = "$hourString:$minuteString";
+
+        time = "12:34";
+        DateTime timeAsDateTime = DateTime.parse(
+            "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} $time");
+        final pillProvider = Provider.of<PillDateProvider>(context);
+        pillProvider.insertTime(widget.index, timeAsDateTime);
       });
-    } else {}
+    }
   }
 
   Future<void> _dialogTimePill(
@@ -140,6 +152,8 @@ class _TimeSetPillState extends State<TimeSetPill> {
                 setState(() {
                   amount = int.parse(controller.text);
                   type = dropdownValue;
+        final pillProvider = Provider.of<PillProvider>(context);
+        pillProvider.insertPill(pill)
                 });
                 Navigator.of(context).pop();
               },
