@@ -3,7 +3,7 @@ import 'package:pillreminder/models/pill_model.dart';
 
 class PillDate {
   final int? id;
-  final PillModel? pillid;
+  final int? pillid;
   late int? status;
   late DateTime? time;
   late int? amount;
@@ -12,10 +12,10 @@ class PillDate {
   PillDate({
     this.id,
     this.pillid,
-    required this.status,
-    required this.time,
-    required this.amount,
-    required this.eat,
+    this.status,
+    this.time,
+    this.amount,
+    this.eat,
   });
 
   factory PillDate.fromJson(Map<String, dynamic> json) => PillDate(

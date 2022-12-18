@@ -7,11 +7,13 @@ class TimeSetPill extends StatefulWidget {
   const TimeSetPill({
     Key? key,
     required this.index,
+    required this.day,
     required this.listPill,
     required this.onListModified,
   }) : super(key: key);
 
   final int index;
+  final int day;
   final List<PillDate> listPill;
   final ListModifiedCallback onListModified;
 
@@ -41,6 +43,9 @@ class _TimeSetPillState extends State<TimeSetPill> {
   void initState() {
     time = "${now.hour}:${now.minute}";
     _items = widget.listPill;
+    for (var i = 0; i < widget.day; i++) {
+      _items.add(PillDate());
+    }
     super.initState();
   }
 

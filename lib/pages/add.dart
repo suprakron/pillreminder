@@ -30,6 +30,8 @@ class _AppPillPageState extends State<AppPillPage> {
     super.initState();
     count = 3;
     day = 7;
+    _dayController.text = day.toString();
+    _countController.text = count.toString();
   }
 
   @override
@@ -53,18 +55,19 @@ class _AppPillPageState extends State<AppPillPage> {
                   PillModel pill = PillModel(
                     name: _nameController.text,
                     categoty: category,
-                    begin: DateTime.now(),
+                    start: DateTime.now().toIso8601String(),
                     day: day,
                   );
-                  await DatabaseHelper.insertPill(pill);
-                  // for (var element in listPill) {
-                  //   PillDate datePill = PillDate(
-                  //       status: element.status,
-                  //       time: element.time,
-                  //       amount: element.amount,
-                  //       eat: element.eat);
-                  //   await DatabaseHelper.insertDatePill(datePill);
-                  // }
+                  var pillid = await DatabaseHelper.insertPill(pill);
+                  for (var element in listPill) {
+                    PillDate datePill = PillDate(
+                        pillid: pillid,
+                        status: element.status,
+                        time: element.time,
+                        amount: element.amount,
+                        eat: element.eat);
+                    await DatabaseHelper.insertDatePill(datePill);
+                  }
                 },
                 child: const Text('เพิ่มยา'),
               )
@@ -109,7 +112,6 @@ class _AppPillPageState extends State<AppPillPage> {
                   switch (label) {
                     case 'จำนวนยา':
                       count = int.parse(controller.text);
-                      listPill.length = count;
                       break;
                     case 'จำนวนวัน':
                       day = int.parse(controller.text);
@@ -170,6 +172,7 @@ class _AppPillPageState extends State<AppPillPage> {
               return TimeSetPill(
                 index: index,
                 listPill: listPill,
+                day: day,
                 onListModified: (items) {
                   listPill = items;
                   listPill.forEach((element) {
