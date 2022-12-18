@@ -13,10 +13,15 @@ class DatabaseHelper {
   static const columnPillId = '_id';
   static const columnPillName = 'name';
   static const columnPillCategory = 'categoty';
+  static const columnPillBegin = 'begin';
+  static const columnPillDay = 'day';
 
   static const columnId = '_id';
   static const columnPill = 'pillid';
-  static const columnDatetime = 'dateTime';
+  static const columnStatus = 'status';
+  static const columnTime = 'time';
+  static const columnAmount = 'amount';
+  static const columnEat = 'eat';
 
   // Make this a singleton class.
   DatabaseHelper._privateConstructor();
@@ -44,6 +49,8 @@ class DatabaseHelper {
             $columnPillId INTEGER PRIMARY KEY,
             $columnPillName TEXT NOT NULL,
             $columnPillCategory TEXT NOT NULL
+            $columnPillBegin DATETIME NOT NULL
+            $columnPillDay INTEGER NOT NULL
           );
           ''');
 
@@ -51,7 +58,10 @@ class DatabaseHelper {
         CREATE TABLE $table2 (
           $columnId INTEGER PRIMARY KEY,
           $columnPill INTEGER NOT NULL,
-          $columnDatetime DATETIME NOT NULL,
+          $columnStatus INTEGER NOT NULL,
+          $columnTime DATETIME NOT NULL,
+          $columnAmount INTEGER NOT NULL,
+          $columnEat TEXT NOT NULL,
           FOREIGN KEY ($columnPill) REFERENCES $table1($columnPillId)
         );
         ''');

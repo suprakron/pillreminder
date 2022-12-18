@@ -7,7 +7,7 @@ class PillDate {
   late int? status;
   late DateTime? time;
   late int? amount;
-  late Eat? eat;
+  late String? eat;
 
   PillDate({
     this.id,

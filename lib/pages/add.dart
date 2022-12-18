@@ -63,7 +63,7 @@ class _AppPillPageState extends State<AppPillPage> {
                         time: element.time,
                         amount: element.amount,
                         eat: element.eat);
-                    // await DatabaseHelper.insertDatePill(datePill);
+                    await DatabaseHelper.insertDatePill(datePill);
                   }
                 },
                 child: const Text('เพิ่มยา'),
