@@ -28,7 +28,6 @@ class _AppPillPageState extends State<AppPillPage> {
   @override
   void initState() {
     super.initState();
-    listPill.add([]);
     count = 3;
     day = 7;
   }
