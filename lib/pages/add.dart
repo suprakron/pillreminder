@@ -18,7 +18,7 @@ class _AppPillPageState extends State<AppPillPage> {
   TextEditingController _dayController = TextEditingController();
   TextEditingController _countController = TextEditingController();
 
-  late String category = '';
+  late String category;
 
   late int count = 3;
   late int day;
@@ -52,12 +52,16 @@ class _AppPillPageState extends State<AppPillPage> {
               setDatePill(),
               ElevatedButton(
                 onPressed: () async {
+                  if (_nameController.text.trim().isEmpty || category.isEmpty) {
+                    return;
+                  }
                   PillModel pill = PillModel(
                     name: _nameController.text,
                     categoty: category,
                     start: DateTime.now().toIso8601String(),
                     day: day,
                   );
+
                   var pillid = await DatabaseHelper.insertPill(pill);
                   for (var element in listPill) {
                     PillDate datePill = PillDate(
@@ -68,6 +72,7 @@ class _AppPillPageState extends State<AppPillPage> {
                         eat: element.eat);
                     await DatabaseHelper.insertDatePill(datePill);
                   }
+                  Navigator.pop(context);
                 },
                 child: const Text('เพิ่มยา'),
               )
