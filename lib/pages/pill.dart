@@ -32,15 +32,14 @@ class PillPage extends StatelessWidget {
                     itemCount: rows.length,
                     itemBuilder: (BuildContext context, int index) {
                       PillModel pill = PillModel.fromJson(rows[index]);
-                      return ListTile(
-                        title: Text(pill.name),
-                        subtitle: Text(pill.categoty),
+                      return PillList(
+                        pillModel: pill,
                       );
                     },
                   );
                 }
               } else {
-                return CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               }
             },
             // child: ListView.builder(

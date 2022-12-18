@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+import '../models/pill_model.dart';
+
 class PillList extends StatelessWidget {
   const PillList({
     Key? key,
-    required this.index,
+    required this.pillModel,
   }) : super(key: key);
 
-  final int index;
+  final PillModel pillModel;
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +21,30 @@ class PillList extends StatelessWidget {
           children: [
             Row(
               children: [
-                const FlutterLogo(size: 50),
+                Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 230, 230, 230),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 1.0,
+                        offset: Offset(1, 2),
+                      )
+                    ],
+                  ),
+                  child: Image.asset(
+                    pillModel.categoty == Category.pill ? iconPill : iconPills,
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text('name pill'),
-                    Text('time and frequency'),
+                  children: [
+                    Text(pillModel.name),
+                    Text(pillModel.categoty),
                   ],
                 ),
               ],
