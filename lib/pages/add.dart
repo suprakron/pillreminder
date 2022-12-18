@@ -57,14 +57,14 @@ class _AppPillPageState extends State<AppPillPage> {
                     day: day,
                   );
                   await DatabaseHelper.insertPill(pill);
-                  for (var element in listPill) {
-                    PillDate datePill = PillDate(
-                        status: element.status,
-                        time: element.time,
-                        amount: element.amount,
-                        eat: element.eat);
-                    await DatabaseHelper.insertDatePill(datePill);
-                  }
+                  // for (var element in listPill) {
+                  //   PillDate datePill = PillDate(
+                  //       status: element.status,
+                  //       time: element.time,
+                  //       amount: element.amount,
+                  //       eat: element.eat);
+                  //   await DatabaseHelper.insertDatePill(datePill);
+                  // }
                 },
                 child: const Text('เพิ่มยา'),
               )
@@ -226,7 +226,7 @@ class _AppPillPageState extends State<AppPillPage> {
                       child: Container(
                         height: 80,
                         width: 80,
-                        color: Colors.red,
+                        decoration: boxDecationCategory(Category.pill),
                         child: Image.asset(
                           iconPill,
                           fit: BoxFit.cover,
@@ -242,29 +242,29 @@ class _AppPillPageState extends State<AppPillPage> {
                       child: Container(
                         height: 80,
                         width: 80,
-                        color: Colors.red,
+                        decoration: boxDecationCategory(Category.capsule),
                         child: Image.asset(
                           iconPills,
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          category = Category.potion;
-                        });
-                      },
-                      child: Container(
-                        height: 80,
-                        width: 80,
-                        color: Colors.red,
-                        child: Image.asset(
-                          iconbottle,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     setState(() {
+                    //       category = Category.potion;
+                    //     });
+                    //   },
+                    //   child: Container(
+                    //     height: 80,
+                    //     width: 80,
+                    //     color: Colors.red,
+                    //     child: Image.asset(
+                    //       iconbottle,
+                    //       fit: BoxFit.cover,
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -273,6 +273,23 @@ class _AppPillPageState extends State<AppPillPage> {
         ),
       ),
     );
+  }
+
+  BoxDecoration boxDecationCategory(String categorySelect) {
+    return BoxDecoration(
+        color: category == categorySelect
+            ? const Color.fromARGB(255, 230, 230, 230)
+            : null,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: category == categorySelect
+            ? const [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 1.0,
+                  offset: Offset(1, 2),
+                )
+              ]
+            : null);
   }
 
   Widget namePill(BuildContext context, TextEditingController controller) {
