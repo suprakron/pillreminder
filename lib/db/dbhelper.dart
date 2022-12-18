@@ -104,6 +104,12 @@ class DatabaseHelper {
     Database db = await instance.database;
     int id = row[columnPillId];
     return await db
-        .update(table1, row, where: '$columnPillId = ?', whereArgs: [id]);
+        .update(table1, row, where: '$columnId = ?', whereArgs: [id]);
+  }
+
+  // delete a row in the database.
+  static Future<int> delete(int id) async {
+    Database db = await instance.database;
+    return await db.delete(table1, where: '$columnId = ?', whereArgs: [id]);
   }
 }

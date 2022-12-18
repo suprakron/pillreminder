@@ -5,9 +5,14 @@ import 'package:pillreminder/models/pill_model.dart';
 
 import '../widgets/pilllist.dart';
 
-class PillPage extends StatelessWidget {
+class PillPage extends StatefulWidget {
   const PillPage({super.key});
 
+  @override
+  State<PillPage> createState() => _PillPageState();
+}
+
+class _PillPageState extends State<PillPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -34,6 +39,9 @@ class PillPage extends StatelessWidget {
                       PillModel pill = PillModel.fromJson(rows[index]);
                       return PillList(
                         pillModel: pill,
+                        onDelete: () {
+                          setState(() {});
+                        },
                       );
                     },
                   );
@@ -42,15 +50,6 @@ class PillPage extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               }
             },
-            // child: ListView.builder(
-            //   itemCount: 10,
-            //   itemBuilder: (context, index) => SizedBox(
-            //     width: MediaQuery.of(context).size.width,
-            //     child: PillList(
-            //       index: index,
-            //     ),
-            //   ),
-            // ),
           ),
         ),
       ),

@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:pillreminder/db/dbhelper.dart';
 
 import '../constants.dart';
 import '../models/pill_model.dart';
 
-class PillList extends StatelessWidget {
+class PillList extends StatefulWidget {
   const PillList({
     Key? key,
     required this.pillModel,
+    required this.onDelete,
   }) : super(key: key);
 
   final PillModel pillModel;
+  final VoidCallback onDelete;
+  @override
+  State<PillList> createState() => _PillListState();
+}
 
+class _PillListState extends State<PillList> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -36,22 +43,25 @@ class PillList extends StatelessWidget {
                     ],
                   ),
                   child: Image.asset(
-                    pillModel.categoty == Category.pill ? iconPill : iconPills,
+                    widget.pillModel.categoty == Category.pill
+                        ? iconPill
+                        : iconPills,
                     fit: BoxFit.cover,
                   ),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(pillModel.name),
-                    Text(pillModel.categoty),
+                    Text(widget.pillModel.name),
+                    Text(widget.pillModel.categoty),
                   ],
                 ),
               ],
             ),
             IconButton(
               onPressed: () {
-                print('Delete');
+                DatabaseHelper.delete(widget.pillModel.id!);
+                widget.onDelete();
               },
               icon: const Icon(
                 Icons.delete_forever,
