@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:pillreminder/models/pilldate_model.dart';
+
+typedef ListModifiedCallback = void Function(List<PillDate> items);
 
 class TimeSetPill extends StatefulWidget {
   const TimeSetPill({
     Key? key,
     required this.index,
+    required this.listPill,
+    required this.onListModified,
   }) : super(key: key);
 
   final int index;
+  final List<PillDate> listPill;
+  final ListModifiedCallback onListModified;
 
   @override
   State<TimeSetPill> createState() => _TimeSetPillState();
@@ -28,9 +35,12 @@ class _TimeSetPillState extends State<TimeSetPill> {
 
   String timeType = 'ก่อนอาหาร';
 
+  late List<PillDate> _items;
+
   @override
   void initState() {
-    time = "${now.hour} : ${now.minute}";
+    time = "${now.hour}:${now.minute}";
+    _items = widget.listPill;
     super.initState();
   }
 
@@ -79,6 +89,7 @@ class _TimeSetPillState extends State<TimeSetPill> {
         time = "12:34";
         DateTime timeAsDateTime = DateTime.parse(
             "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} $time");
+        _items[widget.index].time = timeAsDateTime;
       });
     }
   }
@@ -147,6 +158,7 @@ class _TimeSetPillState extends State<TimeSetPill> {
                 setState(() {
                   amount = int.parse(controller.text);
                   type = dropdownValue;
+                  _items[widget.index].amount = amount;
                 });
                 Navigator.of(context).pop();
               },
@@ -184,6 +196,7 @@ class _TimeSetPillState extends State<TimeSetPill> {
       onPressed: () {
         setState(() {
           timeType = label;
+          _items[widget.index].eat;
           Navigator.of(context).pop();
         });
       },

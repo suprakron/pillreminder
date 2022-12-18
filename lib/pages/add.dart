@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pillreminder/constants.dart';
+import 'package:pillreminder/db/dbhelper.dart';
+import 'package:pillreminder/models/pill_model.dart';
+import 'package:pillreminder/models/pilldate_model.dart';
 
 import '../widgets/pill_time_set.dart';
 
@@ -20,9 +23,12 @@ class _AppPillPageState extends State<AppPillPage> {
   late int count = 3;
   late int day;
 
+  List<PillDate> listPill = [];
+
   @override
   void initState() {
     super.initState();
+    listPill.add([]);
     count = 3;
     day = 7;
   }
@@ -44,7 +50,23 @@ class _AppPillPageState extends State<AppPillPage> {
               categoryPill(),
               setDatePill(),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  PillModel pill = PillModel(
+                    name: _nameController.text,
+                    categoty: category,
+                    begin: DateTime.now(),
+                    day: day,
+                  );
+                  await DatabaseHelper.insertPill(pill);
+                  for (var element in listPill) {
+                    PillDate datePill = PillDate(
+                        status: element.status,
+                        time: element.time,
+                        amount: element.amount,
+                        eat: element.eat);
+                    // await DatabaseHelper.insertDatePill(datePill);
+                  }
+                },
                 child: const Text('เพิ่มยา'),
               )
             ],
@@ -88,6 +110,7 @@ class _AppPillPageState extends State<AppPillPage> {
                   switch (label) {
                     case 'จำนวนยา':
                       count = int.parse(controller.text);
+                      listPill.length = count;
                       break;
                     case 'จำนวนวัน':
                       day = int.parse(controller.text);
@@ -147,6 +170,13 @@ class _AppPillPageState extends State<AppPillPage> {
             itemBuilder: (context, index) {
               return TimeSetPill(
                 index: index,
+                listPill: listPill,
+                onListModified: (items) {
+                  listPill = items;
+                  listPill.forEach((element) {
+                    print(element.amount);
+                  });
+                },
               );
             },
           )

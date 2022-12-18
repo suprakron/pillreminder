@@ -1,3 +1,5 @@
+import 'package:pillreminder/models/pill_model.dart';
+import 'package:pillreminder/models/pilldate_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -56,25 +58,29 @@ class DatabaseHelper {
   }
 
   // Insert a row into the database.
-  Future<int> insertPill(Map<String, dynamic> row) async {
+  // static Future<int> insertPill(Map<String, dynamic> row) async {
+  //   Database db = await instance.database;
+  //   return await db.insert(table1, row);
+  // }
+  static Future<int> insertPill(PillModel row) async {
     Database db = await instance.database;
-    return await db.insert(table1, row);
+    return await db.insert(table1, row.toJson());
   }
 
   // Insert a row into the database.
-  Future<int> insertDatePill(Map<String, dynamic> row) async {
+  static Future<int> insertDatePill(PillDate row) async {
     Database db = await instance.database;
-    return await db.insert(table2, row);
+    return await db.insert(table2, row.toJson());
   }
 
   // Query the database.
-  Future<List<Map<String, dynamic>>> queryAllRows() async {
+  static Future<List<Map<String, dynamic>>> queryAllRows() async {
     Database db = await instance.database;
     return await db.query(table1);
   }
 
   // Query a row with id in the database.
-  Future<Map<String, dynamic>?> queryRow(int id) async {
+  static Future<Map<String, dynamic>?> queryRow(int id) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> result =
         await db.query(table1, where: '$columnId = ?', whereArgs: [id]);
@@ -82,7 +88,7 @@ class DatabaseHelper {
   }
 
   // Update a row in the database.
-  Future<int> update(Map<String, dynamic> row) async {
+  static Future<int> update(Map<String, dynamic> row) async {
     Database db = await instance.database;
     int id = row[columnPillId];
     return await db

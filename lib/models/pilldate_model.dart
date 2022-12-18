@@ -18,7 +18,7 @@ class PillDate {
     required this.eat,
   });
 
-  factory PillDate.fromMap(Map<String, dynamic> json) => PillDate(
+  factory PillDate.fromJson(Map<String, dynamic> json) => PillDate(
         id: json['id'],
         pillid: json['pillid'],
         status: json['status'],
@@ -27,7 +27,7 @@ class PillDate {
         eat: json['eat'],
       );
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'pillid': pillid,
