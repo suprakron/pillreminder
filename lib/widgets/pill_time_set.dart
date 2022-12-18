@@ -43,8 +43,15 @@ class _TimeSetPillState extends State<TimeSetPill> {
   void initState() {
     time = "${now.hour}:${now.minute}";
     _items = widget.listPill;
+
     for (var i = 0; i < widget.day; i++) {
-      _items.add(PillDate());
+      _items.add(PillDate(
+        pillid: 2,
+        status: 0,
+        time: time,
+        amount: amount,
+        eat: timeType,
+      ));
     }
     super.initState();
   }
@@ -92,9 +99,8 @@ class _TimeSetPillState extends State<TimeSetPill> {
         time = "$hourString:$minuteString";
 
         time = "12:34";
-        DateTime timeAsDateTime = DateTime.parse(
-            "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} $time");
-        _items[widget.index].time = timeAsDateTime;
+        _items[widget.index].time = time;
+        // "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} $time";
       });
     }
   }

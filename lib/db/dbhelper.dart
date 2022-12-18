@@ -56,7 +56,7 @@ class DatabaseHelper {
 
     await db.execute('''
         CREATE TABLE $table2 (
-          $columnId INTEGER PRIMARY KEY,
+          $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
           $columnPill INTEGER NOT NULL,
           $columnStatus INTEGER NOT NULL,
           $columnTime DATETIME NOT NULL,
