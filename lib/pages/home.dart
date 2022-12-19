@@ -70,6 +70,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    _currentIndex == 0 ? _scrollToIndex() : null;
+
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: _currentIndex == 0 ? appBarCustom() : null,
