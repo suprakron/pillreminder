@@ -26,7 +26,7 @@ class DatabaseHelper {
   static const columnEat = 'eat';
 
   static const queryAndJoinPill = '''
-      SELECT t2.*, t1.$columnPillName
+      SELECT t2.*, t1.*
      FROM $table2 t2
      INNER JOIN $table1 t1
      ON t2.$columnPill = t1.$columnPillId

@@ -331,7 +331,7 @@ class Home extends StatelessWidget {
                 itemCount: rows.length,
                 itemBuilder: (BuildContext context, int index) {
                   return PillDay(
-                    category: rows[index]["category"] ?? "",
+                    categoty: rows[index]["categoty"] ?? "",
                     datetime: DateTime.parse(rows[index]["datetime"]),
                     name: rows[index]["name"] ?? "",
                     status: rows[index]["status"] ?? 0,

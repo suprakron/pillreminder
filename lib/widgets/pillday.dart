@@ -7,16 +7,17 @@ class PillDay extends StatelessWidget {
   const PillDay({
     Key? key,
     required this.name,
-    required this.category,
+    required this.categoty,
     required this.status,
     required this.datetime,
   }) : super(key: key);
   final String name;
-  final String category;
+  final String categoty;
   final int status;
   final DateTime datetime;
   @override
   Widget build(BuildContext context) {
+    print(categoty);
     return Card(
         elevation: 1,
         child: Container(
@@ -36,7 +37,8 @@ class PillDay extends StatelessWidget {
                 children: [
                   Text(status == 0 ? 'ยังไม่ได้กิน' : 'กินแล้ว'),
                   Image.asset(
-                    category == Category.pill ? iconPill : iconPills,
+                    // ignore: unrelated_type_equality_checks
+                    category.contains(Category.pill) ? iconPill : iconCapsule,
                     fit: BoxFit.cover,
                   ),
                 ],

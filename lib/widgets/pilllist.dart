@@ -45,7 +45,7 @@ class _PillListState extends State<PillList> {
                   child: Image.asset(
                     widget.pillModel.categoty == Category.pill
                         ? iconPill
-                        : iconPills,
+                        : iconCapsule,
                     fit: BoxFit.cover,
                   ),
                 ),

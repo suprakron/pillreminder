@@ -16,7 +16,7 @@ const iconsyrup = 'assets/images/syrup.svg';
 const iconpill = 'assets/images/pill.svg';
 
 const iconPill = 'assets/pill.png';
-const iconPills = 'assets/pills.png';
+const iconCapsule = 'assets/pills.png';
 const iconbottle = 'assets/bottle.png';
 
 List<String> category = ['PILL', 'CAPSULE', 'POTION'];

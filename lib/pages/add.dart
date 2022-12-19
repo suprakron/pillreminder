@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pillreminder/constants.dart';
 import 'package:pillreminder/db/dbhelper.dart';
 import 'package:pillreminder/models/pill_model.dart';
@@ -20,7 +21,7 @@ class _AppPillPageState extends State<AppPillPage> {
 
   String? category;
 
-  late int count = 3;
+  late int count;
   late int day;
 
   List<PillDate> listPill = [];
@@ -28,8 +29,8 @@ class _AppPillPageState extends State<AppPillPage> {
   @override
   void initState() {
     super.initState();
-    count = 3;
-    day = 7;
+    count = 1;
+    day = 1;
     _dayController.text = day.toString();
     _countController.text = count.toString();
   }
@@ -66,16 +67,24 @@ class _AppPillPageState extends State<AppPillPage> {
                     day: day,
                   );
                   var pillid = await DatabaseHelper.insertPill(pill);
-                  for (var element in listPill) {
-                    PillDate datePill = PillDate(
-                      pillid: pillid,
-                      status: element.status,
-                      datetime: element.datetime,
-                      amount: element.amount,
-                      eat: element.eat,
-                    );
-                    datePill.status ??= 0;
-                    await DatabaseHelper.insertDatePill(datePill);
+
+                  for (var i = 0; i < day; i++) {
+                    for (var element in listPill) {
+                      String dateString = element.datetime!;
+                      DateFormat dateFormat =
+                          DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
+                      DateTime dateTimeC = dateFormat.parse(dateString);
+
+                      PillDate datePill = PillDate(
+                        pillid: pillid,
+                        status: element.status,
+                        datetime: dateTimeC.add(Duration(days: i)).toString(),
+                        amount: element.amount,
+                        eat: element.eat,
+                      );
+                      datePill.status ??= 0;
+                      await DatabaseHelper.insertDatePill(datePill);
+                    }
                   }
                   Navigator.of(context).pop();
                 },
@@ -263,7 +272,7 @@ class _AppPillPageState extends State<AppPillPage> {
                         width: 80,
                         decoration: boxDecationCategory(Category.capsule),
                         child: Image.asset(
-                          iconPills,
+                          iconCapsule,
                           fit: BoxFit.cover,
                         ),
                       ),
