@@ -18,7 +18,6 @@ class PillDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(name);
     return Card(
         elevation: 1,
         child: Container(
@@ -34,7 +33,8 @@ class PillDay extends StatelessWidget {
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                       )),
-                  Text(DateFormat('Hm').format(datetime),
+                  Text(DateFormat('yMd').format(datetime),
+                      // Text(DateFormat('Hm').format(datetime),
                       style: const TextStyle(
                         fontSize: 20,
                       ))

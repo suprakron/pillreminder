@@ -101,7 +101,6 @@ class _TimeSetPillState extends State<TimeSetPill> {
         String minuteString = pickedTime.minute.toString().padLeft(2, '0');
         time = "$hourString:$minuteString";
 
-        time = "12:34";
         _items[widget.index].datetime =
             "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} $time";
       });

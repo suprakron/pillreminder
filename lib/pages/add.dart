@@ -88,7 +88,7 @@ class _AppPillPageState extends State<AppPillPage> {
                     }
                   }
                   Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => MyWidget()),
+                      MaterialPageRoute(builder: (context) => const MyWidget()),
                       (route) => false);
                 },
                 child: const SizedBox(
@@ -202,7 +202,9 @@ class _AppPillPageState extends State<AppPillPage> {
                 listPill: listPill,
                 day: day,
                 onListModified: (items) {
-                  listPill = items;
+                  setState(() {
+                    listPill = items;
+                  });
                 },
               );
             },
@@ -212,21 +214,21 @@ class _AppPillPageState extends State<AppPillPage> {
     );
   }
 
-  ElevatedButton buttonSetTime(String label, Function onPressed) {
-    return ElevatedButton(
-      onPressed: () {
-        onPressed();
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: kPrimaryColor,
-        elevation: 0,
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(color: Colors.white),
-      ),
-    );
-  }
+  // ElevatedButton buttonSetTime(String label, Function onPressed) {
+  //   return ElevatedButton(
+  //     onPressed: () {
+  //       onPressed();
+  //     },
+  //     style: ElevatedButton.styleFrom(
+  //       backgroundColor: kPrimaryColor,
+  //       elevation: 0,
+  //     ),
+  //     child: Text(
+  //       label,
+  //       style: const TextStyle(color: Colors.white),
+  //     ),
+  //   );
+  // }
 
   Widget categoryPill() {
     return Card(

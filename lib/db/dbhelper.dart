@@ -26,11 +26,11 @@ class DatabaseHelper {
   static const columnEat = 'eat';
 
   static const queryAndJoinPill = '''
-    SELECT *
+    SELECT t1.*,t2.*
      FROM $table2 t2
      INNER JOIN $table1 t1
      ON t2.$columnPill = t1.$columnPillId
-      ''';
+    ''';
 
   // Make this a singleton class.
   DatabaseHelper._privateConstructor();
@@ -99,15 +99,16 @@ class DatabaseHelper {
   static Future<List<Map<String, dynamic>>> queryAllPillDateRows(
     String datetime,
   ) async {
-    print(datetime);
     Database db = await instance.database;
-    List<Map<String, dynamic>> result = await db.rawQuery('''$queryAndJoinPill 
-        WHERE datetime >= date(\'now\', \'start of day\') AND datetime < date(\'now\', \'start of day\', \'+1 day\')
+    List<Map<String, dynamic>> result = await db.rawQuery('''
+        $queryAndJoinPill 
         ''');
-    for (var element in result) {
-      print(element);
-    }
-    return result;
+    // WHERE datetime >= date(\'now\', \'start of day\') AND datetime < date(\'now\', \'start of day\', \'+1 day\')
+    List<Map<String, dynamic>> filteredResult = result
+        .where((element) => element["datetime"].startsWith(datetime))
+        .toList();
+
+    return filteredResult;
   }
 
   // Query a row with id in the database.
