@@ -22,7 +22,7 @@ class TimeSetPill extends StatefulWidget {
 }
 
 class _TimeSetPillState extends State<TimeSetPill> {
-  TextEditingController _amountController = TextEditingController();
+  late TextEditingController _amountController = TextEditingController();
 
   List<String> listEat = <String>[
     'ก่อนอาหาร',
@@ -39,10 +39,15 @@ class _TimeSetPillState extends State<TimeSetPill> {
 
   late List<PillDate> _items;
 
+  DateTime nowDate = DateTime.now();
   @override
   void initState() {
-    DateTime nowDate = DateTime.now();
-    time = "${nowTime.hour}:${nowTime.minute}";
+    // set initial time each index
+    String hourString = nowTime.hour.toString().padLeft(2, '0');
+    String minuteString = nowTime.minute.toString().padLeft(2, '0');
+    time = "$hourString:$minuteString";
+
+    // set initial list time set each index
     _items = widget.listPill;
     for (var i = 0; i < widget.day; i++) {
       _items.add(PillDate(
@@ -50,12 +55,13 @@ class _TimeSetPillState extends State<TimeSetPill> {
         status: 0,
         datetime:
             "${DateTime(nowDate.year, nowDate.month, nowDate.day, nowTime.hour, nowTime.minute)}",
-
-        // "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} $time",
         amount: amount,
         eat: timeType,
       ));
     }
+
+    // set amount pill set each index
+    _amountController.text = amount.toString();
     super.initState();
   }
 
@@ -102,7 +108,7 @@ class _TimeSetPillState extends State<TimeSetPill> {
         time = "$hourString:$minuteString";
 
         _items[widget.index].datetime =
-            "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} $time";
+            "${DateTime(nowDate.year, nowDate.month, nowDate.day, pickedTime.hour, pickedTime.minute)}";
       });
     }
   }
@@ -113,7 +119,6 @@ class _TimeSetPillState extends State<TimeSetPill> {
   ) {
     List<String> list = <String>[
       'เม็ด',
-      'ช้อน',
     ];
     String dropdownValue = list.first;
     return showDialog<void>(
@@ -131,25 +136,26 @@ class _TimeSetPillState extends State<TimeSetPill> {
                   ),
                 ),
               ),
-              DropdownButton<String>(
-                value: dropdownValue,
-                elevation: 16,
-                underline: Container(
-                  height: 2,
-                ),
-                onChanged: (String? value) {
-                  // This is called when the user selects an item.
-                  setState(() {
-                    dropdownValue = value!;
-                  });
-                },
-                items: list.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+              const Text('เม็ด')
+              // DropdownButton<String>(
+              //   value: dropdownValue,
+              //   elevation: 16,
+              //   underline: Container(
+              //     height: 2,
+              //   ),
+              //   onChanged: (String? value) {
+              //     // This is called when the user selects an item.
+              //     setState(() {
+              //       dropdownValue = value!;
+              //     });
+              //   },
+              //   items: list.map<DropdownMenuItem<String>>((String value) {
+              //     return DropdownMenuItem<String>(
+              //       value: value,
+              //       child: Text(value),
+              //     );
+              //   }).toList(),
+              // ),
             ],
           ),
           actions: <Widget>[
