@@ -1,10 +1,12 @@
+import 'dart:math';
+
 import 'package:pillreminder/models/pill_model.dart';
 import 'package:pillreminder/models/pilldate_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class DatabaseHelper {
-  static const _databaseName = "my_database3.db";
+  static const _databaseName = "my_database4.db";
   static const _databaseVersion = 1;
 
   static const table1 = 'pill';
@@ -23,6 +25,13 @@ class DatabaseHelper {
   static const columnAmount = 'amount';
   static const columnEat = 'eat';
 
+  static const queryAndJoinPill = '''
+      SELECT t2.*, t1.$columnPillName
+     FROM $table2 t2
+     INNER JOIN $table1 t1
+     ON t2.$columnPill = t1.$columnPillId
+      ''';
+
   // Make this a singleton class.
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -38,7 +47,6 @@ class DatabaseHelper {
   // Open the database.
   _initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
-    print(path);
     return await openDatabase(path,
         version: _databaseVersion, onCreate: _onCreate);
   }
@@ -62,16 +70,14 @@ class DatabaseHelper {
           $columnTime DATETIME NOT NULL,
           $columnAmount INTEGER NOT NULL,
           $columnEat TEXT NOT NULL,
-          FOREIGN KEY ($columnPill) REFERENCES $table1($columnPillId)
+          FOREIGN KEY ($columnPill) REFERENCES $table1($columnPillId) 
+          ON DELETE CASCADE
+          ON UPDATE CASCADE
         );
         ''');
   }
 
   // Insert a row into the database.
-  // static Future<int> insertPill(Map<String, dynamic> row) async {
-  //   Database db = await instance.database;
-  //   return await db.insert(table1, row);
-  // }
   static Future<int> insertPill(PillModel row) async {
     Database db = await instance.database;
     return await db.insert(table1, row.toJson());
@@ -87,6 +93,26 @@ class DatabaseHelper {
   static Future<List<Map<String, dynamic>>> queryAllRows() async {
     Database db = await instance.database;
     return await db.query(table1);
+  }
+
+// Query the database.
+  static Future<List<Map<String, dynamic>>> queryAllPillDateRows() async {
+    Database db = await instance.database;
+    // return await db.query(table2);
+    // List<Map<String, dynamic>> result = await db.rawQuery(
+    //     // ignore: prefer_interpolation_to_compose_strings
+    //     queryAndJoinPill +
+    //         '''
+    //     WHERE datetime >= date(\'now\', \'start of day\')
+    //       AND datetime < date(\'now\', \'start of day\', \'+1 day\')
+    //       ''');
+    List<Map<String, dynamic>> result = await db.rawQuery(
+        // ignore: prefer_interpolation_to_compose_strings
+        queryAndJoinPill);
+    for (var element in result) {
+      print(element);
+    }
+    return result;
   }
 
   // Query a row with id in the database.
@@ -110,4 +136,24 @@ class DatabaseHelper {
     Database db = await instance.database;
     return await db.delete(table1, where: '$columnId = ?', whereArgs: [id]);
   }
+
+  // Query a row with date in the database.
+  // static Future<Map<String, dynamic>?> queryDatetimeRow(String datetime) async {
+  //   print(datetime);
+  //   Database db = await instance.database;
+
+  //   List<Map<String, dynamic>> result = await db.rawQuery(queryAndJoinPill +
+  //       ' WHERE datetime >= date(\'now\', \'start of day\') AND datetime < date(\'now\', \'start of day\', \'+1 day\')');
+
+  //   // List<Map<String, dynamic>> result = await db.query('pill_date',
+  //   //     where: 'datetime >= ? AND datetime < ?',
+  //   //     whereArgs: [
+  //   //       datetime,
+  //   //       datetime,
+  //   //     ]);
+
+  //   // List<Map<String, dynamic>> result = await db
+  //   //     .query("SELECT * FROM pill_date WHERE datetime LIKE '$datetime%'");
+  //   print(result);
+  //   return result.isNotEmpty ? result[0] : null;
 }

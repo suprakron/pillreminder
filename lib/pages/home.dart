@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:pillreminder/db/dbhelper.dart';
+import 'package:pillreminder/models/pilldate_model.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import './pill.dart';
@@ -312,11 +314,39 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      child: ListView.builder(
-        itemCount: 10,
-        itemBuilder: ((context, index) {
-          return const PillDay();
-        }),
+      child: FutureBuilder(
+        future: DatabaseHelper.queryAllPillDateRows(
+            // DateFormat('yyyy-MM-dd').format(DateTime.now())
+            // DateTime.now().toIso8601String()),
+            ),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              List<Map<String, dynamic>> rows = snapshot.data;
+              return ListView.builder(
+                itemCount: rows.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return PillDay(
+                    category: rows[index]["category"] ?? "",
+                    datetime: DateTime.parse(rows[index]["datetime"]),
+                    name: rows[index]["name"] ?? "",
+                    status: rows[index]["status"] ?? 0,
+                  );
+                },
+              );
+            }
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
+        // child: ListView.builder(
+        //   itemCount: 10,
+        //   itemBuilder: ((context, index) {
+        //     return const PillDay();
+        //   }),
+        // ),
       ),
     );
   }
