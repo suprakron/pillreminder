@@ -6,6 +6,7 @@ import 'package:pillreminder/models/pill_model.dart';
 import 'package:pillreminder/models/pilldate_model.dart';
 
 import '../widgets/pill_time_set.dart';
+import 'homepage.dart';
 
 class AppPillPage extends StatefulWidget {
   const AppPillPage({super.key});
@@ -86,7 +87,9 @@ class _AppPillPageState extends State<AppPillPage> {
                       await DatabaseHelper.insertDatePill(datePill);
                     }
                   }
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => MyWidget()),
+                      (route) => false);
                 },
                 child: const SizedBox(
                     width: 100,
