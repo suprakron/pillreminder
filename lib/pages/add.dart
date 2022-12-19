@@ -21,6 +21,7 @@ class _AppPillPageState extends State<AppPillPage> {
   TextEditingController _countController = TextEditingController();
 
   String? category;
+  String? pillname;
 
   late int count;
   late int day;
@@ -50,7 +51,7 @@ class _AppPillPageState extends State<AppPillPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              namePill(context, _nameController),
+              namePill(context),
               categoryPill(),
               setDatePill(),
               ElevatedButton(
@@ -63,7 +64,7 @@ class _AppPillPageState extends State<AppPillPage> {
                     return;
                   }
                   PillModel pill = PillModel(
-                    name: _nameController.text,
+                    name: pillname!,
                     categoty: category!,
                     day: day,
                   );
@@ -322,7 +323,7 @@ class _AppPillPageState extends State<AppPillPage> {
             : null);
   }
 
-  Widget namePill(BuildContext context, TextEditingController controller) {
+  Widget namePill(BuildContext context) {
     return Card(
       elevation: 1,
       color: Colors.white,
@@ -335,8 +336,10 @@ class _AppPillPageState extends State<AppPillPage> {
               child: const Text('ชื่อยา'),
             ),
             TextField(
-              onChanged: ((value) => setState(() => controller.text = value)),
-              controller: controller,
+              onChanged: ((value) => setState(() {
+                    pillname = value;
+                  })),
+              controller: _nameController,
               maxLines: 1,
               decoration: const InputDecoration(
                   fillColor: Color.fromRGBO(248, 248, 246, 1),
