@@ -26,7 +26,7 @@ class DatabaseHelper {
   static const columnEat = 'eat';
 
   static const queryAndJoinPill = '''
-      SELECT t2.*, t1.*
+    SELECT *
      FROM $table2 t2
      INNER JOIN $table1 t1
      ON t2.$columnPill = t1.$columnPillId
@@ -95,20 +95,14 @@ class DatabaseHelper {
     return await db.query(table1);
   }
 
-// Query the database.
-  static Future<List<Map<String, dynamic>>> queryAllPillDateRows() async {
+  // Query the database.
+  static Future<List<Map<String, dynamic>>> queryAllPillDateRows(
+    String datetime,
+  ) async {
     Database db = await instance.database;
-    // return await db.query(table2);
-    // List<Map<String, dynamic>> result = await db.rawQuery(
-    //     // ignore: prefer_interpolation_to_compose_strings
-    //     queryAndJoinPill +
-    //         '''
-    //     WHERE datetime >= date(\'now\', \'start of day\')
-    //       AND datetime < date(\'now\', \'start of day\', \'+1 day\')
-    //       ''');
-    List<Map<String, dynamic>> result = await db.rawQuery(
-        // ignore: prefer_interpolation_to_compose_strings
-        queryAndJoinPill);
+    List<Map<String, dynamic>> result = await db.rawQuery('''$queryAndJoinPill 
+        WHERE datetime >= date(\'now\', \'start of day\') AND datetime < date(\'now\', \'start of day\', \'+1 day\')
+        ''');
     for (var element in result) {
       print(element);
     }
