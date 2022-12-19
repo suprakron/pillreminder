@@ -46,11 +46,15 @@ class _AppPillPageState extends State<AppPillPage> {
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               namePill(context, _nameController),
               categoryPill(),
               setDatePill(),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: kPrimaryColor,
+                ),
                 onPressed: () async {
                   if (_nameController.text.trim().isEmpty ||
                       category!.isEmpty) {
@@ -76,7 +80,13 @@ class _AppPillPageState extends State<AppPillPage> {
                   }
                   Navigator.of(context).pop();
                 },
-                child: const Text('เพิ่มยา'),
+                child: const SizedBox(
+                    width: 100,
+                    height: 50,
+                    child: Center(
+                        child: Text(
+                      'เพิ่มยา',
+                    ))),
               )
             ],
           ),
