@@ -19,8 +19,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final scrollDirection = Axis.vertical;
   late AutoScrollController controller;
   late List<List<int>> randomList;
-  DateTime now = DateTime.now();
   late DateTime dateTime;
+  DateTime now = DateTime.now();
   late String month;
 
   List<String> months = [
@@ -50,9 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    dateTime = DateTime.now();
-    selectedIndex = dateTime.day - 1;
-    month = months[dateTime.month - 1];
+    selectedIndex = now.day - 1;
+    month = months[now.month - 1];
 
     controller = AutoScrollController(
         viewportBoundaryGetter: () =>
@@ -117,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () async {
                 DateTime? pickedDate = await showDatePicker(
                     context: context,
-                    initialDate: dateTime,
+                    initialDate: now,
                     firstDate: DateTime(1950),
                     lastDate: DateTime(2100));
 
@@ -225,15 +224,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   SingleChildScrollView dateHorizontal() {
+    int lengthDay = DateTime(now.year, now.month + 1, 0).day;
+    late DateTime firstDay = DateTime(now.year, now.month, 1);
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       controller: controller,
       physics: const ClampingScrollPhysics(),
       child: Row(
         children: List.generate(
-          DateTime(now.year, now.month + 1, 0).day,
+          lengthDay,
           (index) {
-            final dateShow = dateTime.add(Duration(days: index));
+            final dateShow = firstDay.add(Duration(days: index));
             final dayName = DateFormat('E').format(dateShow);
             return AutoScrollTag(
               key: ValueKey(index),
@@ -260,7 +261,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           borderRadius: BorderRadius.circular(44.0),
                         ),
                         child: Text(
-                          dayCase(dayName),
+                          dayName,
+                          // dayCase(dayName),
                           style: TextStyle(
                             fontSize: 20.0,
                             color: selectedIndex == index
