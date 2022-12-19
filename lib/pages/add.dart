@@ -203,9 +203,6 @@ class _AppPillPageState extends State<AppPillPage> {
                 day: day,
                 onListModified: (items) {
                   listPill = items;
-                  listPill.forEach((element) {
-                    print(element.amount);
-                  });
                 },
               );
             },

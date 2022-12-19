@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:pillreminder/pages/homepage.dart';
 
 import './pages/home.dart';
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       ],
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: MyWidget(),
     );
   }
 }

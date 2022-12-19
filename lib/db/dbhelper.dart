@@ -99,6 +99,7 @@ class DatabaseHelper {
   static Future<List<Map<String, dynamic>>> queryAllPillDateRows(
     String datetime,
   ) async {
+    print(datetime);
     Database db = await instance.database;
     List<Map<String, dynamic>> result = await db.rawQuery('''$queryAndJoinPill 
         WHERE datetime >= date(\'now\', \'start of day\') AND datetime < date(\'now\', \'start of day\', \'+1 day\')
