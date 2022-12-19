@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pillreminder/models/pilldate_model.dart';
+import 'package:flutter/src/material/time.dart';
 
 typedef ListModifiedCallback = void Function(List<PillDate> items);
 
@@ -30,7 +31,7 @@ class _TimeSetPillState extends State<TimeSetPill> {
   ];
 
   String? time;
-  TimeOfDay now = TimeOfDay.now();
+  TimeOfDay nowTime = TimeOfDay.now();
 
   int amount = 1;
   String type = 'เม็ด';
@@ -41,14 +42,17 @@ class _TimeSetPillState extends State<TimeSetPill> {
 
   @override
   void initState() {
-    time = "${now.hour}:${now.minute}";
+    DateTime nowDate = DateTime.now();
+    time = "${nowTime.hour}:${nowTime.minute}";
     _items = widget.listPill;
-
     for (var i = 0; i < widget.day; i++) {
       _items.add(PillDate(
         pillid: 2,
         status: 0,
-        time: time,
+        datetime:
+            "${DateTime(nowDate.year, nowDate.month, nowDate.day, nowTime.hour, nowTime.minute)}",
+
+        // "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} $time",
         amount: amount,
         eat: timeType,
       ));
@@ -99,8 +103,8 @@ class _TimeSetPillState extends State<TimeSetPill> {
         time = "$hourString:$minuteString";
 
         time = "12:34";
-        _items[widget.index].time = time;
-        // "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} $time";
+        _items[widget.index].datetime =
+            "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} $time";
       });
     }
   }

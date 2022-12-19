@@ -1,21 +1,17 @@
-// กำหนดชื่อตารางไว้ในตัวแปร
-import 'package:pillreminder/constants.dart';
-
 const String tablePills = 'pill';
 
-// ส่วนของ Data Model ของหนังสือ
 class PillModel {
   final int? id;
   final String name;
   final String categoty;
-  final String start;
+  // final String start;
   final int day;
 
   const PillModel({
     this.id,
     required this.name,
     required this.categoty,
-    required this.start,
+    // required this.start,
     required this.day,
   });
 
@@ -23,7 +19,7 @@ class PillModel {
         id: json['id'],
         name: json['name'],
         categoty: json['categoty'],
-        start: json['start'],
+        // start: json['start'],
         day: json['day'],
       );
 
@@ -31,7 +27,7 @@ class PillModel {
         'id': id,
         'name': name,
         'categoty': categoty,
-        'start': start,
+        // 'start': start,
         'day': day,
       };
 }

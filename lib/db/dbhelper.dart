@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class DatabaseHelper {
-  static const _databaseName = "my_database.db";
+  static const _databaseName = "my_database3.db";
   static const _databaseVersion = 1;
 
   static const table1 = 'pill';
@@ -13,13 +13,13 @@ class DatabaseHelper {
   static const columnPillId = 'id';
   static const columnPillName = 'name';
   static const columnPillCategory = 'categoty';
-  static const columnPillBegin = 'start';
+  // static const columnPillBegin = 'start';
   static const columnPillDay = 'day';
 
   static const columnId = 'id';
   static const columnPill = 'pillid';
   static const columnStatus = 'status';
-  static const columnTime = 'time';
+  static const columnTime = 'datetime';
   static const columnAmount = 'amount';
   static const columnEat = 'eat';
 
@@ -38,6 +38,7 @@ class DatabaseHelper {
   // Open the database.
   _initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
+    print(path);
     return await openDatabase(path,
         version: _databaseVersion, onCreate: _onCreate);
   }
@@ -49,7 +50,6 @@ class DatabaseHelper {
             $columnPillId INTEGER PRIMARY KEY AUTOINCREMENT,
             $columnPillName TEXT NOT NULL,
             $columnPillCategory TEXT NOT NULL,
-            $columnPillBegin DATETIME NOT NULL,
             $columnPillDay INTEGER NOT NULL
           );
           ''');
@@ -65,8 +65,6 @@ class DatabaseHelper {
           FOREIGN KEY ($columnPill) REFERENCES $table1($columnPillId)
         );
         ''');
-
-    print("Create Database");
   }
 
   // Insert a row into the database.

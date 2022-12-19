@@ -1,11 +1,8 @@
-import 'package:pillreminder/constants.dart';
-import 'package:pillreminder/models/pill_model.dart';
-
 class PillDate {
   final int? id;
   late int? pillid;
   late int? status;
-  late String? time;
+  late String? datetime;
   late int? amount;
   late String? eat;
 
@@ -13,7 +10,7 @@ class PillDate {
     this.id,
     this.pillid,
     this.status = 0,
-    required this.time,
+    required this.datetime,
     required this.amount,
     required this.eat,
   });
@@ -22,7 +19,7 @@ class PillDate {
         id: json['id'],
         pillid: json['pillid'],
         status: json['status'],
-        time: json['time'],
+        datetime: json['datetime'],
         amount: json['amount'],
         eat: json['eat'],
       );
@@ -32,7 +29,7 @@ class PillDate {
       'id': id,
       'pillid': pillid,
       'status': status,
-      'time': time,
+      'datetime': datetime,
       'amount': amount,
       'eat': eat,
     };

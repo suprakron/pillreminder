@@ -63,7 +63,6 @@ class _AppPillPageState extends State<AppPillPage> {
                   PillModel pill = PillModel(
                     name: _nameController.text,
                     categoty: category!,
-                    start: DateTime.now().toIso8601String(),
                     day: day,
                   );
                   var pillid = await DatabaseHelper.insertPill(pill);
@@ -71,7 +70,7 @@ class _AppPillPageState extends State<AppPillPage> {
                     PillDate datePill = PillDate(
                       pillid: pillid,
                       status: element.status,
-                      time: element.time,
+                      datetime: element.datetime,
                       amount: element.amount,
                       eat: element.eat,
                     );
