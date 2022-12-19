@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:pillreminder/page/sing_up_page.dart';
+import 'package:pillreminder/pages/sing_up_page.dart';
 
 class LoginUiPage extends StatelessWidget {
   const LoginUiPage({Key? key}) : super(key: key);
