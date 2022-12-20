@@ -79,8 +79,7 @@ class _PillListState extends State<PillList> {
                       ),
                       IconButton(
                         onPressed: () {
-                          DatabaseHelper.delete(widget.pillModel.id!);
-                          widget.onDelete();
+                          _dialogDelete(context, widget.pillModel.name);
                         },
                         icon: const Icon(
                           Icons.delete_forever,
@@ -97,5 +96,39 @@ class _PillListState extends State<PillList> {
             return const Center(child: CircularProgressIndicator());
           }
         });
+  }
+
+  Future<void> _dialogDelete(BuildContext context, String name) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('คำเตือน'),
+          content: Text('คุณแน่ใจหรือไม่ที่จะลบข้อมูลยา $name.'),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('ยกเลิก'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('ตกลง'),
+              onPressed: () {
+                DatabaseHelper.delete(widget.pillModel.id!);
+                widget.onDelete();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
