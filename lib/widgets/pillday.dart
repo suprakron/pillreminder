@@ -41,7 +41,7 @@ class PillDay extends StatelessWidget {
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
                         )),
-                    Text(DateFormat('yMd').format(datetime),
+                    Text(DateFormat('Hm').format(datetime),
                         style: const TextStyle(
                           fontSize: 20,
                         ))
