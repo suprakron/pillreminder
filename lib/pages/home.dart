@@ -355,6 +355,7 @@
 // // }
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pillreminder/constants.dart';
 
 import '../db/dbhelper.dart';
 import '../widgets/pillday.dart';
@@ -380,19 +381,40 @@ class HomePage extends StatelessWidget {
               if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
-                List<Map<String, dynamic>> rows = snapshot.data;
-                return ListView.builder(
-                  itemCount: rows.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return PillDay(
-                      id: rows[index]["id"] ?? "",
-                      categoty: rows[index]["categoty"] ?? "",
-                      datetime: DateTime.parse(rows[index]["datetime"]),
-                      name: rows[index]["name"] ?? "",
-                      status: rows[index]["status"] ?? 0,
-                    );
-                  },
-                );
+                if (snapshot.data.length == 0) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          iconPill,
+                          color: kTextNoData,
+                        ),
+                        const Text(
+                          "ไม่มียาที่ต้องทาน",
+                          style: TextStyle(
+                            color: kTextNoData,
+                            fontSize: 20,
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                } else {
+                  List<Map<String, dynamic>> rows = snapshot.data;
+                  return ListView.builder(
+                    itemCount: rows.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return PillDay(
+                        id: rows[index]["id"] ?? "",
+                        categoty: rows[index]["categoty"] ?? "",
+                        datetime: DateTime.parse(rows[index]["datetime"]),
+                        name: rows[index]["name"] ?? "",
+                        status: rows[index]["status"] ?? 0,
+                      );
+                    },
+                  );
+                }
               }
             } else {
               return const Center(child: CircularProgressIndicator());

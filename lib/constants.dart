@@ -6,7 +6,7 @@ const kSecondaryColor = Color(0xFFFFFFFF);
 const kTextColor = Color(0xFF3C4046);
 const kBackgroundColor = Color(0xFFF8F8F6);
 const kIconColor = Color(0xFF2C5B59);
-
+const kTextNoData = Color.fromARGB(255, 224, 224, 224);
 const double kDefaultPadding = 20.0;
 
 // icon

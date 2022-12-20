@@ -22,7 +22,6 @@ class _PillPageState extends State<PillPage> {
         backgroundColor: kPrimaryColor,
       ),
       body: Container(
-        color: kBackgroundColor,
         margin: const EdgeInsets.only(top: 10, left: 8, right: 8),
         child: FutureBuilder(
           future: DatabaseHelper.queryAllRows(),
@@ -39,15 +38,16 @@ class _PillPageState extends State<PillPage> {
                       children: [
                         Image.asset(
                           'assets/empty.png',
-                          color: const Color.fromARGB(255, 209, 209, 209),
+                          height: 50,
+                          color: kTextNoData,
                         ),
                         const Text(
                           "ไม่พบข้อมูล",
                           softWrap: true,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Color.fromARGB(255, 196, 194, 194),
-                            fontSize: 50,
+                            color: kTextNoData,
+                            fontSize: 20,
                           ),
                         ),
                       ],
