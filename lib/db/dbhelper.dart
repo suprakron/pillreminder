@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:pillreminder/models/pill_model.dart';
 import 'package:pillreminder/models/pilldate_model.dart';
 import 'package:sqflite/sqflite.dart';
