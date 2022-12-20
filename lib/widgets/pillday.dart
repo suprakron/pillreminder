@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pillreminder/constants.dart';
@@ -76,53 +78,48 @@ class PillDay extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            GestureDetector(
-              child: const Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                    height: 50,
-                    width: 200,
-                    child: Text(
-                      'ทานแล้ว',
-                      style: TextStyle(fontSize: 20),
-                    )),
+            SizedBox(
+              height: 50,
+              width: 200,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await DatabaseHelper.updateStatus({
+                    "id": id,
+                    "status": 1,
+                  });
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => const MyWidget()),
+                      (route) => false);
+                },
+                child: const Text(
+                  'ทานแล้ว',
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
-              onTap: () async {
-                await DatabaseHelper.updateStatus({
-                  "id": id,
-                  "status": 1,
-                });
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => const MyWidget()),
-                    (route) => false);
-              },
             ),
             const SizedBox(height: 20),
-            GestureDetector(
-              child: Container(
-                  color: Colors.blue,
-                  child: const Center(
-                    child: SizedBox(
-                        height: 50,
-                        width: 200,
-                        child: Text(
-                          'ยังไม่ทาน',
-                          style: TextStyle(fontSize: 20),
-                        )),
-                  )),
-              onTap: () async {
-                await DatabaseHelper.updateStatus({
-                  "id": id,
-                  "status": 0,
-                });
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => const MyWidget()),
-                    (route) => false);
-              },
+            SizedBox(
+              height: 50,
+              width: 200,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await DatabaseHelper.updateStatus({
+                    "id": id,
+                    "status": 0,
+                  });
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => const MyWidget()),
+                      (route) => false);
+                },
+                child: const Text(
+                  'ยังไม่ทาน',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
             ),
           ],
         ));
