@@ -19,6 +19,8 @@ const iconPill = 'assets/pill.png';
 const iconCapsule = 'assets/pills.png';
 const iconbottle = 'assets/bottle.png';
 
+const sizeLabel = 20.0;
+
 List<String> category = ['PILL', 'CAPSULE', 'POTION'];
 
 class Category {

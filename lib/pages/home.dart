@@ -385,6 +385,7 @@ class HomePage extends StatelessWidget {
                   itemCount: rows.length,
                   itemBuilder: (BuildContext context, int index) {
                     return PillDay(
+                      id: rows[index]["id"] ?? "",
                       categoty: rows[index]["categoty"] ?? "",
                       datetime: DateTime.parse(rows[index]["datetime"]),
                       name: rows[index]["name"] ?? "",

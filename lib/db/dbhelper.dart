@@ -133,23 +133,11 @@ class DatabaseHelper {
     return await db.delete(table1, where: '$columnId = ?', whereArgs: [id]);
   }
 
-  // Query a row with date in the database.
-  // static Future<Map<String, dynamic>?> queryDatetimeRow(String datetime) async {
-  //   print(datetime);
-  //   Database db = await instance.database;
-
-  //   List<Map<String, dynamic>> result = await db.rawQuery(queryAndJoinPill +
-  //       ' WHERE datetime >= date(\'now\', \'start of day\') AND datetime < date(\'now\', \'start of day\', \'+1 day\')');
-
-  //   // List<Map<String, dynamic>> result = await db.query('pill_date',
-  //   //     where: 'datetime >= ? AND datetime < ?',
-  //   //     whereArgs: [
-  //   //       datetime,
-  //   //       datetime,
-  //   //     ]);
-
-  //   // List<Map<String, dynamic>> result = await db
-  //   //     .query("SELECT * FROM pill_date WHERE datetime LIKE '$datetime%'");
-  //   print(result);
-  //   return result.isNotEmpty ? result[0] : null;
+  // update a row status in the database
+  static Future<int> updateStatus(Map<String, dynamic> row) async {
+    Database db = await instance.database;
+    int id = row[columnId];
+    return await db
+        .update(table2, row, where: '$columnId = ?', whereArgs: [id]);
+  }
 }

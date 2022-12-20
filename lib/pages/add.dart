@@ -333,7 +333,10 @@ class _AppPillPageState extends State<AppPillPage> {
           children: [
             SizedBox(
               width: MediaQuery.of(context).size.width,
-              child: const Text('ชื่อยา'),
+              child: const Text(
+                'ชื่อยา',
+                style: TextStyle(fontSize: sizeLabel),
+              ),
             ),
             TextField(
               onChanged: ((value) => setState(() {
