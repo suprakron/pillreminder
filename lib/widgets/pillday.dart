@@ -55,8 +55,9 @@ class PillDay extends StatelessWidget {
                           fontSize: 20,
                         )),
                     Image.asset(
-                      category.contains(Category.pill) ? iconPill : iconCapsule,
+                      categoty == Category.pill ? iconPill : iconCapsule,
                       fit: BoxFit.cover,
+                      color: status == 0 ? Colors.red : Colors.green,
                     )
                   ],
                 ),
@@ -76,16 +77,16 @@ class PillDay extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             GestureDetector(
-              child: Container(
-                  color: Colors.red,
-                  child: const Center(
-                    child: SizedBox(
-                        height: 50,
-                        width: 200,
-                        child: Text(
-                          'ทานแล้ว',
-                        )),
-                  )),
+              child: const Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                    height: 50,
+                    width: 200,
+                    child: Text(
+                      'ทานแล้ว',
+                      style: TextStyle(fontSize: 20),
+                    )),
+              ),
               onTap: () async {
                 await DatabaseHelper.updateStatus({
                   "id": id,
@@ -107,7 +108,8 @@ class PillDay extends StatelessWidget {
                         height: 50,
                         width: 200,
                         child: Text(
-                          'ยังไม่ได้ทาน',
+                          'ยังไม่ทาน',
+                          style: TextStyle(fontSize: 20),
                         )),
                   )),
               onTap: () async {
