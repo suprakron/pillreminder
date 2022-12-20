@@ -6,11 +6,12 @@ import 'package:workmanager/workmanager.dart';
 
 import './pages/home.dart';
 import 'homewidget.dart';
+import 'service/notification.dart';
 
 void main() async {
   // needed if you intend to initialize in the `main` function
   WidgetsFlutterBinding.ensureInitialized();
-
+  // Workmanager().initialize(callbackDispatcher);
   // // Periodic task registration
   // Workmanager().registerPeriodicTask(
   //   "2",
@@ -28,8 +29,29 @@ void main() async {
   //   frequency: const Duration(seconds: 5),
   // );
 
+  
+
   runApp(const MyApp());
 }
+
+// void callbackDispatcher() {
+//   Workmanager().executeTask((task, inputData) {
+//     // Create an instance of the NotificationService class
+//     final NotificationService notificationService = NotificationService();
+
+//     // Initialize the plugin
+//     notificationService.init();
+
+//     // Create a DateTime object with the desired date and time
+//     var scheduledDateTime = DateTime.parse('2022-12-20 16:40:00');
+
+//     // Schedule the notification to be displayed at the specified time
+//     notificationService.scheduleNotification(
+//         'Notification Title', 'Notification Body', scheduledDateTime);
+
+//     return Future.value(true);
+//   });
+// }
 
 // void callbackDispatcher() {
 //   Workmanager().executeTask((task, inputData) {

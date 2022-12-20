@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:pillreminder/db/dbhelper.dart';
 
 import '../constants.dart';
+import '../service/notification.dart';
 import 'add.dart';
 import 'home.dart';
 import 'pill.dart';
@@ -22,6 +24,28 @@ class _MyWidgetState extends State<MyWidget> {
   DateTime selectedDate = DateTime.now();
 
   // late String date;
+  final NotificationService _notificationService = NotificationService();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _notificationService.init();
+    _fetchList();
+  }
+
+  _fetchList() async {
+    DatabaseHelper.queryAllPillDateRows(
+            DateFormat('yyyy-MM-dd').format(DateTime.now()))
+        .then((result) {
+      for (var element in result) {
+        print(DateTime.parse(element['datetime']));
+        _notificationService.scheduleNotification('แจ้งเตือนกินยา',
+            element['name'], DateTime.parse(element['datetime']));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

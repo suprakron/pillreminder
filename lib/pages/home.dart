@@ -353,14 +353,17 @@
 // //     return;
 // //   }
 // // }
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pillreminder/constants.dart';
 
 import '../db/dbhelper.dart';
+import '../service/notification.dart';
 import '../widgets/pillday.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({
     Key? key,
     required this.date,
@@ -369,8 +372,18 @@ class HomePage extends StatelessWidget {
   final DateTime date;
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    DateTime datetime = date;
+    DateTime datetime = widget.date;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: FutureBuilder(
