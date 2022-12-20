@@ -118,8 +118,8 @@ class _MyWidgetState extends State<MyWidget> {
                   label: '',
                 ),
                 BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    iconpill,
+                  icon: Image.asset(
+                    iconCapsule,
                     height: 20,
                     width: 20,
                     color: _currentIndex == 2 ? Colors.white : kIconColor,

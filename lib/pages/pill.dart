@@ -32,18 +32,41 @@ class _PillPageState extends State<PillPage> {
                 return Text('Error: ${snapshot.error}');
               } else {
                 List<Map<String, dynamic>> rows = snapshot.data;
-                return ListView.builder(
-                  itemCount: rows.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    PillModel pill = PillModel.fromJson(rows[index]);
-                    return PillList(
-                      pillModel: pill,
-                      onDelete: () {
-                        setState(() {});
-                      },
-                    );
-                  },
-                );
+                if (rows.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/empty.png',
+                          color: const Color.fromARGB(255, 209, 209, 209),
+                        ),
+                        const Text(
+                          "ไม่พบข้อมูล",
+                          softWrap: true,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 196, 194, 194),
+                            fontSize: 50,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return ListView.builder(
+                    itemCount: rows.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      PillModel pill = PillModel.fromJson(rows[index]);
+                      return PillList(
+                        pillModel: pill,
+                        onDelete: () {
+                          setState(() {});
+                        },
+                      );
+                    },
+                  );
+                }
               }
             } else {
               return const Center(child: CircularProgressIndicator());
