@@ -91,6 +91,7 @@ class _AppPillPageState extends State<AppPillPage> {
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) => const MyWidget()),
                       (route) => false);
+                 
                 },
                 child: const SizedBox(
                     width: 100,
