@@ -140,4 +140,13 @@ class DatabaseHelper {
     return await db
         .update(table2, row, where: '$columnId = ?', whereArgs: [id]);
   }
+
+  // Query a row with id in the database.
+  static Future<Map<String, dynamic>?> queryRowPillDate(int id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> result =
+        await db.query(table2, where: '$columnId = ?', whereArgs: [id]);
+    print(result[0]["eat"]);
+    return result.isNotEmpty ? result[0] : null;
+  }
 }
